@@ -36,7 +36,7 @@ nvm install --lts
 nvm use --lts
 
 # Neovim (latest stable)
-wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+wget https://github.com/neovim/neovim/releases/download/v0.11.2/nvim-linux-arm64.tar.gz
 sudo tar -C /opt -xzf nvim-linux64.tar.gz
 sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/
 ```
