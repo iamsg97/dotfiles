@@ -335,6 +335,7 @@ npm --version
 ## 📚 Learning Resources
 
 -   **Neovim**: `:help` within Neovim, [Learn Vimscript the Hard Way](https://learnvimscriptthehardway.stevelosh.com/)
+-   **Kick start guide**: [Neovim Kickstart](https://github.com/nvim-lua/kickstart.nvim)
 -   **Tmux**: `man tmux`, [Tmux Cheat Sheet](https://tmuxcheatsheet.com/)
 -   **Lua**: [Programming in Lua](https://www.lua.org/pil/), [Lua User Wiki](http://lua-users.org/wiki/)
 -   **Git**: [Pro Git Book](https://git-scm.com/book)
