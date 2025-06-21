@@ -1,389 +1,390 @@
 {
-	// ========================================
-	// WORKBENCH & UI
-	// ========================================
-	"workbench.startupEditor": "none",
-	"workbench.enableExperiments": false,
-	"workbench.colorTheme": "Gruvbox Dark Hard",
-	"workbench.colorCustomizations": {
-		"statusBar.background": "#B48EAD",
-		"statusBar.noFolderBackground": "#B48EAD",
-		"statusBar.debuggingBackground": "#B48EAD",
-		"statusBar.foreground": "#434C5E",
-		"statusBar.debuggingForeground": "#434C5E"
-	},
-	"window.closeWhenEmpty": true,
-	"breadcrumbs.enabled": false,
-	// ========================================
-	// EDITOR - BASIC SETTINGS
-	// ========================================
-	"editor.tabSize": 4,
-	"editor.insertSpaces": false,
-	"editor.fontSize": 17,
-	"editor.lineNumbers": "relative",
-	"editor.wordWrap": "off",
-	"editor.cursorSurroundingLines": 10,
-	"editor.cursorStyle": "block",
-	"editor.cursorBlinking": "solid",
-	"editor.renderLineHighlight": "none",
-	"editor.roundedSelection": false,
-	"editor.folding": false,
-	"editor.autoClosingBrackets": "never",
-	"editor.matchBrackets": "never",
-	"editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
-	// ========================================
-	// EDITOR - UI ELEMENTS
-	// ========================================
-	"editor.minimap.enabled": false,
-	"editor.guides.indentation": false,
-	"editor.scrollbar.vertical": "hidden",
-	"editor.scrollbar.horizontal": "hidden",
-	"editor.hideCursorInOverviewRuler": true,
-	"editor.overviewRulerBorder": false,
-	"editor.glyphMargin": false,
-	// ========================================
-	// EDITOR - SUGGESTIONS & INTELLISENSE
-	// ========================================
-	"editor.inlineSuggest.enabled": true,
-	"editor.wordBasedSuggestions": "off",
-	"editor.acceptSuggestionOnEnter": "on",
-	"editor.quickSuggestions": {
-		"other": true,
-		"comments": false,
-		"strings": false
-	},
-	// ========================================
-	// EDITOR - FORMATTING & CODE ACTIONS
-	// ========================================
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.codeActionsOnSave": {
-		"source.fixAll": "always",
-		"source.organizeImports": "always"
-	},
-	// ========================================
-	// EDITOR - THEME & COLORS
-	// ========================================
-	"editor.tokenColorCustomizations": {
-		"comments": "#2ea542"
-	},
-	// ========================================
-	// FILE MANAGEMENT
-	// ========================================
-	"files.exclude": {
-		"**/.git": true,
-		"**/.DS_Store": true,
-		"**/node_modules": true,
-		"**/dist": true,
-		"**/build": true,
-		"**/.next": true,
-		"**/.nuxt": true
-	},
-	// ========================================
-	// SEARCH SETTINGS
-	// ========================================
-	"search.exclude": {
-		"**/node_modules": true,
-		"**/dist": true,
-		"**/build": true,
-		"**/.next": true,
-		"**/.nuxt": true
-	},
-	// ========================================
-	// EXPLORER SETTINGS
-	// ========================================
-	"explorer.confirmDelete": false,
-	"explorer.confirmDragAndDrop": false,
-	"explorer.compactFolders": false,
-	// ========================================
-	// DIFF EDITOR
-	// ========================================
-	"diffEditor.renderIndicators": false,
-	"diffEditor.renderSideBySide": false,
-	// ========================================
-	// PRETTIER FORMATTER
-	// ========================================
-	"prettier.tabWidth": 4,
-	"prettier.bracketSpacing": true,
-	"prettier.arrowParens": "avoid",
-	"prettier.singleQuote": true,
-	"prettier.trailingComma": "none",
-	"prettier.semi": false,
-	"prettier.jsxSingleQuote": true,
-	"prettier.requireConfig": false,
-	// ========================================
-	// LANGUAGE-SPECIFIC FORMATTERS
-	// ========================================
-	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[json]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"[jsonc]": {
-		"editor.defaultFormatter": "vscode.json-language-features"
-	},
-	"[html]": {
-		"editor.defaultFormatter": "vscode.html-language-features"
-	},
-	"[spring-boot-properties]": {
-		"editor.defaultFormatter": "foxundermoon.shell-format"
-	},
-	// ========================================
-	// JAVASCRIPT & TYPESCRIPT
-	// ========================================
-	"javascript.updateImportsOnFileMove.enabled": "always",
-	"javascript.suggest.autoImports": true,
-	"javascript.format.enable": false,
-	"typescript.updateImportsOnFileMove.enabled": "always",
-	"typescript.suggest.autoImports": true,
-	// ========================================
-	// GO LANGUAGE
-	// ========================================
-	"go.buildFlags": [
-		"-v"
-	],
-	"go.useLanguageServer": true,
-	"go.testEnvFile": "",
-	"go.toolsManagement.autoUpdate": true,
-	// ========================================
-	// RUST LANGUAGE
-	// ========================================
-	"rust-analyzer.inlayHints.parameterHints.enable": false,
-	"rust-analyzer.inlayHints.typeHints.enable": false,
-	"rust-analyzer.inlayHints.typeHints.hideClosureInitialization": false,
-	"rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
-	"rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": false,
-	"rust-analyzer.inlayHints.lifetimeElisionHints.enable": "never",
-	"rust-analyzer.inlayHints.reborrowHints.enable": "never",
-	"rust-analyzer.inlayHints.chainingHints.enable": false,
-	"rust-analyzer.inlayHints.bindingModeHints.enable": false,
-	"rust-analyzer.inlayHints.renderColons": false,
-	"rust-analyzer.inlayHints.closingBraceHints.enable": false,
-	"rust-analyzer.inlayHints.closingBraceHints.minLines": 0,
-	"rust-analyzer.inlayHints.closureReturnTypeHints.enable": "never",
-	"rust-analyzer.completion.callable.snippets": "none",
-	"rust-analyzer.semanticHighlighting.doc.comment.inject.enable": false,
-	"rust-analyzer.procMacro.ignored": {},
-	// ========================================
-	// EMMET
-	// ========================================
-	"emmet.includeLanguages": {
-		"javascript": "javascriptreact",
-		"typescript": "typescriptreact",
-		"vue-html": "html",
-		"vue": "html"
-	},
-	"emmet.triggerExpansionOnTab": true,
-	// ========================================
-	// ESLINT
-	// ========================================
-	"eslint.enable": true,
-	"eslint.run": "onSave",
-	"eslint.validate": [
-		"javascript",
-		"javascriptreact",
-		"typescript",
-		"typescriptreact",
-		"vue"
-	],
-	// ========================================
-	// GIT
-	// ========================================
-	"git.autofetch": true,
-	"git.confirmSync": false,
-	"git.openRepositoryInParentFolders": "always",
-	// ========================================
-	// GITHUB COPILOT
-	// ========================================
-	"github.copilot.chat.codesearch.enabled": true,
-	"github.copilot.chat.agent.thinkingTool": true,
-	// ========================================
-	// VIM - BASIC SETTINGS
-	// ========================================
-	"vim.enableNeovim": false,
-	"vim.neovimUseConfigFile": true,
-	"vim.leader": "<space>",
-	"vim.useSystemClipboard": true,
-	"vim.useCtrlKeys": true,
-	"vim.easymotion": true,
-	"vim.incsearch": true,
-	"vim.hlsearch": true,
-	// ========================================
-	// VIM - CURSOR SETTINGS
-	// ========================================
-	"vim.cursorStylePerMode.normal": "block",
-	"vim.cursorStylePerMode.insert": "block",
-	// ========================================
-	// VIM - SEARCH & HIGHLIGHTING
-	// ========================================
-	"vim.searchHighlightColor": "rgba(150, 255, 255, 0.3)",
-	// ========================================
-	// VIM - STATUS BAR COLORS
-	// ========================================
-	"vim.statusBarColorControl": true,
-	"vim.statusBarColors.normal": [
-		"#8FBCBB",
-		"#434C5E"
-	],
-	"vim.statusBarColors.insert": [
-		"#BF616A",
-		"#434C5E"
-	],
-	"vim.statusBarColors.visual": [
-		"#B48EAD",
-		"#434C5E"
-	],
-	"vim.statusBarColors.visualline": [
-		"#B48EAD",
-		"#434C5E"
-	],
-	"vim.statusBarColors.visualblock": [
-		"#A3BE8C",
-		"#434C5E"
-	],
-	"vim.statusBarColors.replace": [
-		"#D08770",
-		"#434C5E"
-	],
-	// ========================================
-	// VIM - KEY BINDINGS
-	// ========================================
-	"vim.insertModeKeyBindings": [
-		{
-			"before": [
-				"j",
-				"j"
-			],
-			"after": [
-				"<Esc>"
-			]
-		}
-	],
-	"vim.normalModeKeyBindingsNonRecursive": [
-		{
-			"before": [
-				"<leader>",
-				"d"
-			],
-			"after": [
-				"d",
-				"d"
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"i"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.terminal.focus"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"u"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.focusActiveEditorGroup"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"p"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.quickOpen"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"o"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.quickOpen"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"n"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.terminal.toggleTerminal"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"h"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.focusFirstEditorGroup"
-				}
-			]
-		},
-		{
-			"before": [
-				"<leader>",
-				"l"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": "workbench.action.focusSecondEditorGroup"
-				}
-			]
-		},
-		{
-			"before": [
-				"<C-n>"
-			],
-			"after": [],
-			"commands": [
-				{
-					"command": ":nohl"
-				}
-			]
-		}
-	],
-	"vim.handleKeys": {
-		"<C-a>": false,
-		"<C-f>": false,
-		"<C-p>": false,
-		"<C-i>": false
-	},
-	// ========================================
-	// REMOTE & NETWORKING
-	// ========================================
-	"remote.autoForwardPortsSource": "hybrid",
-	// ========================================
-	// PRIVACY & TELEMETRY
-	// ========================================
-	"telemetry.telemetryLevel": "off",
-	"redhat.telemetry.enabled": true,
-	"extensions.ignoreRecommendations": true
+  // ========================================
+  // WORKBENCH & UI
+  // ========================================
+  "workbench.startupEditor": "none",
+  "workbench.enableExperiments": false,
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#B48EAD",
+    "statusBar.noFolderBackground": "#B48EAD",
+    "statusBar.debuggingBackground": "#B48EAD",
+    "statusBar.foreground": "#434C5E",
+    "statusBar.debuggingForeground": "#434C5E"
+  },
+  // ========================================
+  // EDITOR - BASIC SETTINGS
+  // ========================================
+  "editor.tabSize": 4,
+  "editor.insertSpaces": false,
+  // "editor.fontSize": 16,
+  // ========================================
+  // EDITOR - UI ELEMENTS
+  // ========================================
+  "editor.minimap.enabled": false,
+  // ========================================
+  // EDITOR - FORMATTING & CODE ACTIONS
+  // ========================================
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+  },
+  "terminal.integrated.fontFamily": "'Consolas Nerd Font Mono'",
+  // ========================================
+  // FILE MANAGEMENT
+  // ========================================
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/.nuxt": true
+  },
+  // ========================================
+  // SEARCH SETTINGS
+  // ========================================
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/.nuxt": true
+  },
+  // ========================================
+  // EXPLORER SETTINGS
+  // ========================================
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.compactFolders": false,
+  // ========================================
+  // PRETTIER FORMATTER
+  // ========================================
+  "prettier.tabWidth": 4,
+  "prettier.bracketSpacing": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "none",
+  "prettier.semi": false,
+  "prettier.jsxSingleQuote": true,
+  "prettier.requireConfig": false,
+  // ========================================
+  // LANGUAGE-SPECIFIC FORMATTERS
+  // ========================================
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[spring-boot-properties]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  // ========================================
+  // JAVASCRIPT & TYPESCRIPT
+  // ========================================
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+  "javascript.format.enable": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.suggest.autoImports": true,
+  // ========================================
+  // GO LANGUAGE
+  // ========================================
+  "go.buildFlags": [
+    "-v"
+  ],
+  "go.useLanguageServer": true,
+  "go.testEnvFile": "",
+  "go.toolsManagement.autoUpdate": true,
+  // ========================================
+  // RUST LANGUAGE
+  // ========================================
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": false,
+  "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": false,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "never",
+  "rust-analyzer.inlayHints.reborrowHints.enable": "never",
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.bindingModeHints.enable": false,
+  "rust-analyzer.inlayHints.renderColons": false,
+  "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+  "rust-analyzer.inlayHints.closingBraceHints.minLines": 0,
+  "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "never",
+  "rust-analyzer.completion.callable.snippets": "none",
+  "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": false,
+  "rust-analyzer.procMacro.ignored": {},
+  // ========================================
+  // PYTHON LANGUAGE
+  // ========================================
+  "python.analysis.typeCheckingMode": "standard",
+  // ========================================
+  // EMMET
+  // ========================================
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact",
+    "vue-html": "html",
+    "vue": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  // ========================================
+  // ESLINT
+  // ========================================
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue"
+  ],
+  // ========================================
+  // GIT
+  // ========================================
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "always",
+  // ========================================
+  // VIM - BASIC SETTINGS
+  // ========================================
+  "vim.enableNeovim": false,
+  "vim.neovimUseConfigFile": true,
+  "vim.leader": "<space>",
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.hlsearch": true,
+  // ========================================
+  // VIM - CURSOR SETTINGS
+  // ========================================
+  "vim.cursorStylePerMode.normal": "block",
+  "vim.cursorStylePerMode.insert": "block",
+  // ========================================
+  // VIM - SEARCH & HIGHLIGHTING
+  // ========================================
+  "vim.searchHighlightColor": "rgba(150, 255, 255, 0.3)",
+  // ========================================
+  // VIM - STATUS BAR COLORS
+  // ========================================
+  "vim.statusBarColorControl": true,
+  "vim.statusBarColors.normal": [
+    "#2FCA8E",
+    "#434C5E"
+  ],
+  "vim.statusBarColors.insert": [
+    "#BF616A",
+    "#434C5E"
+  ],
+  "vim.statusBarColors.visual": [
+    "#B48EAD",
+    "#434C5E"
+  ],
+  "vim.statusBarColors.visualline": [
+    "#B48EAD",
+    "#434C5E"
+  ],
+  "vim.statusBarColors.visualblock": [
+    "#A3BE8C",
+    "#434C5E"
+  ],
+  "vim.statusBarColors.replace": [
+    "#D08770",
+    "#434C5E"
+  ],
+  // ========================================
+  // VIM - KEY BINDINGS
+  // ========================================
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "d"
+      ],
+      "after": [
+        "d",
+        "d"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "u"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "workbench.action.focusActiveEditorGroup"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "o"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "workbench.action.quickOpen"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<C-h>"
+      ],
+      "after": [
+        "5",
+        "j"
+      ]
+    },
+    {
+      "before": [
+        "<C-u>"
+      ],
+      "after": [
+        "5",
+        "k"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "n"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "workbench.action.terminal.toggleTerminal"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "h"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "workbench.action.focusFirstEditorGroup"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "l"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": "workbench.action.focusSecondEditorGroup"
+        }
+      ]
+    },
+    {
+      "before": [
+        "<C-n>"
+      ],
+      "after": [],
+      "commands": [
+        {
+          "command": ":nohl"
+        }
+      ]
+    }
+  ],
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false,
+    "<C-p>": false,
+    "<C-i>": false,
+    "<C-j>": false
+  },
+  // ========================================
+  // REMOTE & NETWORKING
+  // ========================================
+  "remote.autoForwardPortsSource": "hybrid",
+  // ========================================
+  // PRIVACY & TELEMETRY
+  // ========================================
+  "telemetry.telemetryLevel": "off",
+  "redhat.telemetry.enabled": true,
+  "extensions.ignoreRecommendations": true,
+  "editor.rulers": [
+    90
+  ],
+  "search.smartCase": true,
+  "editor.lineNumbers": "on",
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "j",
+        "j"
+      ],
+      "after": [
+        "<esc>"
+      ]
+    },
+    {
+      "before": [
+        "[",
+        "]",
+        "\\"
+      ],
+      "after": [
+        "{",
+        "<cr>",
+        "<esc>",
+        "k",
+        "o"
+      ]
+    }
+  ],
+  "editor.suggestSelection": "first",
+  "terminal.integrated.scrollback": 10000,
+  "vim.textwidth": 90,
+  "window.autoDetectColorScheme": true,
+  "files.insertFinalNewline": true,
+  "workbench.editor.enablePreview": false,
+  "terminal.integrated.cwd": "${fileDirname}",
+  "terminal.explorerKind": "integrated",
+  "cSpell.enabled": false,
+  "workbench.sideBar.location": "right",
+  "window.openFoldersInNewWindow": "on",
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }
