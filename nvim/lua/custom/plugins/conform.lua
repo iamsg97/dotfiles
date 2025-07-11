@@ -31,9 +31,9 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				javascript = { "prettier", stop_after_first = true },
-				typescript = { "prettier", stop_after_first = true },
+				typescript = { "prettier, biome", stop_after_first = true },
 				javascriptreact = { "prettier", stop_after_first = true },
-				typescriptreact = { "prettier", stop_after_first = true },
+				typescriptreact = { "prettier, biome", stop_after_first = true },
 				json = { "prettier", stop_after_first = true },
 				html = { "prettier", stop_after_first = true },
 				css = { "prettier", stop_after_first = true },
@@ -45,7 +45,7 @@ return {
 				prettier = {
 					args = function(self, ctx)
 						local args = { "--stdin-filepath", "$FILENAME" }
-						
+
 						-- Check for project-level prettier config files
 						local project_configs = {
 							".prettierrc",
@@ -59,10 +59,10 @@ return {
 							"prettier.config.mjs",
 							"prettier.config.cjs",
 						}
-						
+
 						local project_config_found = false
 						local cwd = vim.fn.getcwd()
-						
+
 						-- Look for project config in current working directory and parent directories
 						local function find_config(dir)
 							for _, config_file in ipairs(project_configs) do
@@ -82,7 +82,7 @@ return {
 							end
 							return nil
 						end
-						
+
 						-- Traverse up the directory tree to find config
 						local current_dir = cwd
 						while current_dir ~= "/" do
@@ -93,7 +93,7 @@ return {
 							end
 							current_dir = vim.fn.fnamemodify(current_dir, ":h")
 						end
-						
+
 						-- If no project config found, use global config
 						if not project_config_found then
 							local global_config = vim.fn.expand("~/.prettierrc.json")
@@ -102,7 +102,7 @@ return {
 								table.insert(args, 2, global_config)
 							end
 						end
-						
+
 						return args
 					end,
 				},
