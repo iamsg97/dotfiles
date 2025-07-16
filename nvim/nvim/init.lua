@@ -55,6 +55,12 @@ vim.o.timeoutlen = 300
 vim.o.splitright = true
 vim.o.splitbelow = true
 
+vim.opt.expandtab = false -- Use real tab characters
+vim.opt.shiftwidth = 4 -- Indent by this many columns
+vim.opt.tabstop = 4 -- Display tabs as this many columns wide
+vim.opt.softtabstop = 4 -- Number of spaces per <Tab>/<BS>
+vim.opt.smartindent = true -- Enable smart indenting
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -87,6 +93,18 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
+-- Move 5 lines down/up with Ctrl+D and Ctrl+U
+vim.keymap.set("n", "<C-d>", "5j", { desc = "Move 5 lines down" })
+vim.keymap.set("n", "<C-u>", "5k", { desc = "Move 5 lines up" })
+
+-- VS Code-like keybindings
+vim.keymap.set("n", "<C-S-]>", vim.lsp.buf.hover, { desc = "Peek definition (hover)" })
+vim.keymap.set("n", "<C-w>o", "<C-w>o", { desc = "Close all other windows" })
+vim.keymap.set("n", "<C-w>=", "<C-w>=", { desc = "Even out window widths" })
+vim.keymap.set("n", "<C-w>s", "<C-w>s", { desc = "Split window horizontally" })
+vim.keymap.set("n", "<C-w>v", "<C-w>v", { desc = "Split window vertically" })
+vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { desc = "Go to definition" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
@@ -108,109 +126,17 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-
--- Enhanced editor group navigation (similar to VSCode)
-vim.keymap.set("n", "<C-h>", function()
-	-- Move to the leftmost window (first editor group)
-	vim.cmd("wincmd h")
-	-- If we're already at the leftmost, go to the very first window
-	while vim.fn.winnr() ~= vim.fn.winnr("h") do
-		vim.cmd("wincmd h")
-	end
-end, { desc = "Move to first editor group (leftmost window)" })
-
-vim.keymap.set("n", "<C-l>", function()
-	-- Move to the rightmost window (last editor group)
-	vim.cmd("wincmd l")
-	-- If we're already at the rightmost, go to the very last window
-	while vim.fn.winnr() ~= vim.fn.winnr("l") do
-		vim.cmd("wincmd l")
-	end
-end, { desc = "Move to last editor group (rightmost window)" })
-
+vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<leader>pv", ":Ex<CR>", { desc = "Open Netrw" })
 
--- Custom movement keymaps
-vim.keymap.set("n", "<C-d>", "5j", { desc = "Move 5 lines down" })
-vim.keymap.set("n", "<C-u>", "5k", { desc = "Move 5 lines up" })
-
--- Split management keymaps (similar to VSCode behavior)
-vim.keymap.set("n", "<C-A-Right>", "<C-w>v", { desc = "Split window vertically" })
-vim.keymap.set("n", "<C-A-Left>", "<C-w>q", { desc = "Close current split" })
-
--- Comment toggling function
-local function toggle_comment()
-	local start_line = vim.fn.line("'<")
-	local end_line = vim.fn.line("'>")
-	local comment_string = vim.bo.commentstring
-
-	-- If no commentstring is set, try to determine from filetype
-	if comment_string == "" then
-		local ft = vim.bo.filetype
-		local comment_map = {
-			lua = "-- %s",
-			python = "# %s",
-			javascript = "// %s",
-			typescript = "// %s",
-			html = "<!-- %s -->",
-			css = "/* %s */",
-			c = "// %s",
-			cpp = "// %s",
-			vim = '" %s',
-			sh = "# %s",
-			bash = "# %s",
-		}
-		comment_string = comment_map[ft] or "# %s"
-	end
-
-	-- Extract comment prefix and suffix
-	local prefix, suffix = comment_string:match("^(.-)%%s(.*)$")
-	if not prefix then
-		prefix = "# "
-		suffix = ""
-	end
-
-	-- Check if all lines are commented
-	local all_commented = true
-	for i = start_line, end_line do
-		local line = vim.fn.getline(i)
-		local trimmed = line:match("^%s*(.-)%s*$")
-		if trimmed ~= "" and not trimmed:find("^" .. vim.pesc(prefix:gsub("%s+$", ""))) then
-			all_commented = false
-			break
-		end
-	end
-
-	-- Toggle comments
-	for i = start_line, end_line do
-		local line = vim.fn.getline(i)
-		if all_commented then
-			-- Remove comment
-			local uncommented = line:gsub("^(%s*)" .. vim.pesc(prefix), "%1", 1)
-			if suffix ~= "" then
-				uncommented = uncommented:gsub(vim.pesc(suffix) .. "(%s*)$", "%1", 1)
-			end
-			vim.fn.setline(i, uncommented)
-		else
-			-- Add comment (only if line is not empty)
-			local trimmed = line:match("^%s*(.-)%s*$")
-			if trimmed ~= "" then
-				local indent = line:match("^(%s*)")
-				local content = line:sub(#indent + 1)
-				vim.fn.setline(i, indent .. prefix .. content .. suffix)
-			end
-		end
-	end
-end
-
--- Comment toggle keymap for visual mode
-vim.keymap.set("v", "<C-_>", function()
-	toggle_comment()
-	-- Exit visual mode
-	vim.cmd("normal! gv")
-end, { desc = "Toggle comments on selected lines" })
+-- Neogit keymaps
+vim.keymap.set("n", "<leader>ngg", ":Neogit<CR>", { desc = "Open Neogit" })
+vim.keymap.set("n", "<leader>ngc", ":Neogit commit<CR>", { desc = "Open Neogit commit popup" })
+vim.keymap.set("n", "<leader>ngl", ":NeogitLog<CR>", { desc = "Open NeogitLog" })
+vim.keymap.set("n", "<leader>ngC", ":NeogitCommit<CR>", { desc = "Open NeogitCommit view" })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -925,6 +851,22 @@ require("lazy").setup({
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
+
+	{ -- Neogit - A magit-like Git interface for Neovim
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim",         -- required
+			"sindrets/diffview.nvim",        -- optional - Diff integration
+
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua",              -- optional
+			"echasnovski/mini.pick",         -- optional
+			"folke/snacks.nvim",             -- optional
+		},
+		config = true,
+	},
+
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
