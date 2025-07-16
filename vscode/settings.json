@@ -13,13 +13,11 @@
 		"statusBar.foreground": "#434C5E",
 		"statusBar.debuggingForeground": "#434C5E"
 	},
-
 	// ========================================
 	// WINDOW SETTINGS
 	// ========================================
 	"window.autoDetectColorScheme": true,
 	"window.openFoldersInNewWindow": "on",
-
 	// ========================================
 	// EDITOR - BASIC SETTINGS
 	// ========================================
@@ -27,9 +25,11 @@
 	"editor.insertSpaces": false,
 	"editor.minimap.enabled": false,
 	"editor.lineNumbers": "on",
-	"editor.rulers": [90],
+	"editor.rulers": [
+		90
+	],
 	"editor.suggestSelection": "first",
-
+	"editor.fontFamily": "'BlexMono Nerd Font', Consolas, 'Courier New', monospace",
 	// ========================================
 	// EDITOR - FORMATTING & CODE ACTIONS
 	// ========================================
@@ -39,7 +39,6 @@
 		"source.fixAll": "always",
 		"source.organizeImports": "always"
 	},
-
 	// ========================================
 	// FILE MANAGEMENT
 	// ========================================
@@ -53,7 +52,6 @@
 		"**/.nuxt": true
 	},
 	"files.insertFinalNewline": true,
-
 	// ========================================
 	// SEARCH SETTINGS
 	// ========================================
@@ -65,23 +63,20 @@
 		"**/.nuxt": true
 	},
 	"search.smartCase": true,
-
 	// ========================================
 	// EXPLORER SETTINGS
 	// ========================================
 	"explorer.confirmDelete": false,
 	"explorer.confirmDragAndDrop": false,
 	"explorer.compactFolders": false,
-
 	// ========================================
 	// TERMINAL SETTINGS
 	// ========================================
-	"terminal.integrated.fontFamily": "'Consolas Nerd Font Mono'",
+	"terminal.integrated.fontFamily": "'BlexMono Nerd Font'",
 	"terminal.integrated.scrollback": 10000,
 	"terminal.explorerKind": "external",
 	"terminal.external.windowsExec": "wt.exe",
 	"terminal.external.linuxExec": "wsl.exe -d Ubuntu",
-
 	// ========================================
 	// PRETTIER FORMATTER
 	// ========================================
@@ -93,7 +88,6 @@
 	"prettier.semi": false,
 	"prettier.jsxSingleQuote": true,
 	"prettier.requireConfig": false,
-
 	// ========================================
 	// LANGUAGE-SPECIFIC FORMATTERS
 	// ========================================
@@ -121,7 +115,9 @@
 	"[spring-boot-properties]": {
 		"editor.defaultFormatter": "foxundermoon.shell-format"
 	},
-
+	"[c]": {
+		"editor.defaultFormatter": "ms-vscode.cpptools"
+	},
 	// ========================================
 	// JAVASCRIPT & TYPESCRIPT
 	// ========================================
@@ -130,15 +126,15 @@
 	"javascript.format.enable": false,
 	"typescript.updateImportsOnFileMove.enabled": "always",
 	"typescript.suggest.autoImports": true,
-
 	// ========================================
 	// GO LANGUAGE
 	// ========================================
-	"go.buildFlags": ["-v"],
+	"go.buildFlags": [
+		"-v"
+	],
 	"go.useLanguageServer": true,
 	"go.testEnvFile": "",
 	"go.toolsManagement.autoUpdate": true,
-
 	// ========================================
 	// RUST LANGUAGE
 	// ========================================
@@ -158,12 +154,10 @@
 	"rust-analyzer.completion.callable.snippets": "none",
 	"rust-analyzer.semanticHighlighting.doc.comment.inject.enable": false,
 	"rust-analyzer.procMacro.ignored": {},
-
 	// ========================================
 	// PYTHON LANGUAGE
 	// ========================================
 	"python.analysis.typeCheckingMode": "standard",
-
 	// ========================================
 	// EMMET
 	// ========================================
@@ -174,7 +168,6 @@
 		"vue": "html"
 	},
 	"emmet.triggerExpansionOnTab": true,
-
 	// ========================================
 	// ESLINT
 	// ========================================
@@ -187,14 +180,12 @@
 		"typescriptreact",
 		"vue"
 	],
-
 	// ========================================
 	// GIT
 	// ========================================
 	"git.autofetch": true,
 	"git.confirmSync": false,
 	"git.openRepositoryInParentFolders": "always",
-
 	// ========================================
 	// VIM - BASIC SETTINGS
 	// ========================================
@@ -207,55 +198,98 @@
 	"vim.incsearch": true,
 	"vim.hlsearch": true,
 	"vim.textwidth": 90,
-
 	// ========================================
 	// VIM - CURSOR SETTINGS
 	// ========================================
 	"vim.cursorStylePerMode.normal": "block",
 	"vim.cursorStylePerMode.insert": "block",
-
 	// ========================================
 	// VIM - SEARCH & HIGHLIGHTING
 	// ========================================
 	"vim.searchHighlightColor": "#A3BE8C",
-
 	// ========================================
 	// VIM - STATUS BAR COLORS
 	// ========================================
 	"vim.statusBarColorControl": true,
-	"vim.statusBarColors.normal": ["#2FCA8E", "#434C5E"],
-	"vim.statusBarColors.insert": ["#BF616A", "#434C5E"],
-	"vim.statusBarColors.visual": ["#B48EAD", "#434C5E"],
-	"vim.statusBarColors.visualline": ["#B48EAD", "#434C5E"],
-	"vim.statusBarColors.visualblock": ["#A3BE8C", "#434C5E"],
-	"vim.statusBarColors.replace": ["#D08770", "#434C5E"],
-
+	"vim.statusBarColors.normal": [
+		"#2FCA8E",
+		"#434C5E"
+	],
+	"vim.statusBarColors.insert": [
+		"#BF616A",
+		"#434C5E"
+	],
+	"vim.statusBarColors.visual": [
+		"#B48EAD",
+		"#434C5E"
+	],
+	"vim.statusBarColors.visualline": [
+		"#B48EAD",
+		"#434C5E"
+	],
+	"vim.statusBarColors.visualblock": [
+		"#A3BE8C",
+		"#434C5E"
+	],
+	"vim.statusBarColors.replace": [
+		"#D08770",
+		"#434C5E"
+	],
 	// ========================================
 	// VIM - KEY BINDINGS
 	// ========================================
 	"vim.insertModeKeyBindings": [
 		{
-			"before": ["j", "j"],
-			"after": ["<Esc>"]
+			"before": [
+				"j",
+				"j"
+			],
+			"after": [
+				"<Esc>"
+			]
 		}
 	],
 	"vim.insertModeKeyBindingsNonRecursive": [
 		{
-			"before": ["j", "j"],
-			"after": ["<esc>"]
+			"before": [
+				"j",
+				"j"
+			],
+			"after": [
+				"<esc>"
+			]
 		},
 		{
-			"before": ["[", "]", "\\"],
-			"after": ["{", "<cr>", "<esc>", "k", "o"]
+			"before": [
+				"[",
+				"]",
+				"\\"
+			],
+			"after": [
+				"{",
+				"<cr>",
+				"<esc>",
+				"k",
+				"o"
+			]
 		}
 	],
 	"vim.normalModeKeyBindingsNonRecursive": [
 		{
-			"before": ["<leader>", "d"],
-			"after": ["d", "d"]
+			"before": [
+				"<leader>",
+				"d"
+			],
+			"after": [
+				"d",
+				"d"
+			]
 		},
 		{
-			"before": ["<leader>", "u"],
+			"before": [
+				"<leader>",
+				"u"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -264,7 +298,10 @@
 			]
 		},
 		{
-			"before": ["<leader>", "o"],
+			"before": [
+				"<leader>",
+				"o"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -273,15 +310,28 @@
 			]
 		},
 		{
-			"before": ["<C-d>"],
-			"after": ["5", "j"]
+			"before": [
+				"<C-d>"
+			],
+			"after": [
+				"5",
+				"j"
+			]
 		},
 		{
-			"before": ["<C-u>"],
-			"after": ["5", "k"]
+			"before": [
+				"<C-u>"
+			],
+			"after": [
+				"5",
+				"k"
+			]
 		},
 		{
-			"before": ["<leader>", "n"],
+			"before": [
+				"<leader>",
+				"n"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -290,7 +340,9 @@
 			]
 		},
 		{
-			"before": ["<C-h>"],
+			"before": [
+				"<C-h>"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -299,7 +351,9 @@
 			]
 		},
 		{
-			"before": ["<C-l>"],
+			"before": [
+				"<C-l>"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -308,7 +362,9 @@
 			]
 		},
 		{
-			"before": ["<C-n>"],
+			"before": [
+				"<C-n>"
+			],
 			"after": [],
 			"commands": [
 				{
@@ -325,22 +381,21 @@
 		"<C-i>": false,
 		"<C-j>": false
 	},
-
 	// ========================================
 	// EXTENSIONS & PLUGINS
 	// ========================================
 	"github.copilot.nextEditSuggestions.enabled": true,
 	"cSpell.enabled": false,
 	"extensions.ignoreRecommendations": true,
-
 	// ========================================
 	// REMOTE & NETWORKING
 	// ========================================
 	"remote.autoForwardPortsSource": "hybrid",
-
 	// ========================================
 	// PRIVACY & TELEMETRY
 	// ========================================
 	"telemetry.telemetryLevel": "off",
-	"redhat.telemetry.enabled": true
+	"redhat.telemetry.enabled": true,
+	"workbench.preferredDarkColorTheme": "Xcode Default (Dark Customized Version)",
+	"C_Cpp.intelliSenseEngine": "disabled",
 }
