@@ -132,6 +132,12 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 vim.keymap.set("n", "<leader>pv", ":Ex<CR>", { desc = "Open Netrw" })
 
+-- Neogit keymaps
+vim.keymap.set("n", "<leader>ngg", ":Neogit<CR>", { desc = "Open Neogit" })
+vim.keymap.set("n", "<leader>ngc", ":Neogit commit<CR>", { desc = "Open Neogit commit popup" })
+vim.keymap.set("n", "<leader>ngl", ":NeogitLog<CR>", { desc = "Open NeogitLog" })
+vim.keymap.set("n", "<leader>ngC", ":NeogitCommit<CR>", { desc = "Open NeogitCommit view" })
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -808,27 +814,27 @@ require("lazy").setup({
 		opts = { signs = false },
 	},
 
-	-- nvim v0.8.0
-	{
-		"kdheepak/lazygit.nvim",
-		lazy = true,
-		cmd = {
-			"LazyGit",
-			"LazyGitConfig",
-			"LazyGitCurrentFile",
-			"LazyGitFilter",
-			"LazyGitFilterCurrentFile",
-		},
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-		-- setting the keybinding for LazyGit with 'keys' is recommended in
-		-- order to load the plugin when the command is run for the first time
-		keys = {
-			{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-		},
-	},
+-- nvim v0.8.0
+{
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+        "LazyGit",
+        "LazyGitConfig",
+        "LazyGitCurrentFile",
+        "LazyGitFilter",
+        "LazyGitFilterCurrentFile",
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+        { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    }
+}
 
 	{ -- Collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
