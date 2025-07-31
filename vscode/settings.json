@@ -11,7 +11,8 @@
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
-    "editor.renderWhitespace": "all",
+    // "editor.renderWhitespace": "all",
+    "editor.guides.indentation": false,
     "editor.trimAutoWhitespace": true,
     "editor.smoothScrolling": true,
     "editor.lineNumbers": "relative",
@@ -46,6 +47,7 @@
     "workbench.iconTheme": "catppuccin-frappe",
     "workbench.editor.enablePreview": false,
     "workbench.colorTheme": "Catppuccin Frappé",
+    "catppuccin.accentColor": "teal",
     "window.menuBarVisibility": "toggle",
     "window.zoomLevel": 1,
     "explorer.confirmDelete": false,
@@ -132,7 +134,203 @@
     },
     "gitlens.ai.model": "vscode",
     "gitlens.ai.vscode.model": "copilot:gpt-4.1",
-    "makefile.configureOnOpen": true
+    "makefile.configureOnOpen": true,
+    "github.copilot.nextEditSuggestions.enabled": true,
+    // ========================================
+    // VIM - CURSOR SETTINGS
+    // ========================================
+    "vim.cursorStylePerMode.normal": "block",
+    "vim.cursorStylePerMode.insert": "block",
+    // ========================================
+    // VIM - SEARCH & HIGHLIGHTING
+    // ========================================
+    "vim.searchHighlightColor": "#A3BE8C",
+    // ========================================
+    // VIM - STATUS BAR COLORS
+    // ========================================
+    "vim.statusBarColorControl": true,
+    "vim.statusBarColors.normal": [
+        "#8BD5CA", // Teal (Catppuccin Frappé Teal)
+        "#303446" // Surface0
+    ],
+    "vim.statusBarColors.insert": [
+        "#99D1DB", // Blue (Catppuccin Frappé Blue)
+        "#303446"
+    ],
+    "vim.statusBarColors.visual": [
+        "#F4B8E4", // Pink (Catppuccin Frappé Pink)
+        "#303446"
+    ],
+    "vim.statusBarColors.visualline": [
+        "#F4B8E4", // Pink (Catppuccin Frappé Pink)
+        "#303446"
+    ],
+    "vim.statusBarColors.visualblock": [
+        "#8CAAEE", // Lavender (Catppuccin Frappé Lavender)
+        "#303446"
+    ],
+    "vim.statusBarColors.replace": [
+        "#E78284", // Red (Catppuccin Frappé Red)
+        "#303446"
+    ],
+    // ========================================
+    // VIM - KEY BINDINGS
+    // ========================================
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<esc>"
+            ]
+        },
+        {
+            "before": [
+                "[",
+                "]",
+                "\\"
+            ],
+            "after": [
+                "{",
+                "<cr>",
+                "<esc>",
+                "k",
+                "o"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "after": [
+                "d",
+                "d"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "u"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.focusActiveEditorGroup"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "o"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.quickOpen"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "after": [
+                "5",
+                "j"
+            ]
+        },
+        {
+            "before": [
+                "<C-u>"
+            ],
+            "after": [
+                "5",
+                "k"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "n"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.terminal.toggleTerminal"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-h>"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.focusFirstEditorGroup"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-l>"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.focusSecondEditorGroup"
+                }
+            ]
+        },
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "after": [],
+            "commands": [
+                {
+                    "command": ":nohl"
+                }
+            ]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-b>": false,
+        "<C-f>": false,
+        "<C-p>": false,
+        "<C-i>": false,
+        "<C-j>": false
+    },
+    // ========================================
+    // EXTENSIONS & PLUGINS
+    // ========================================
+    "cSpell.enabled": false,
+    "extensions.ignoreRecommendations": true,
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#F4B8E4",
+        "statusBar.noFolderBackground": "#F4B8E4",
+        "statusBar.debuggingBackground": "#F4B8E4",
+        "statusBar.foreground": "#303446",
+        "statusBar.debuggingForeground": "#303446"
+    }
     // =========================
     // Suggestions for future learning:
     // - Consider installing extensions for GraphQL, Redis, AWS, Docker, Kubernetes, and C/Embedded development.
