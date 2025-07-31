@@ -137,6 +137,17 @@
     "makefile.configureOnOpen": true,
     "github.copilot.nextEditSuggestions.enabled": true,
     // ========================================
+    // VIM - BASIC SETTINGS
+    // ========================================
+    "vim.enableNeovim": false,
+    "vim.neovimUseConfigFile": true,
+    "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    // ========================================
     // VIM - CURSOR SETTINGS
     // ========================================
     "vim.cursorStylePerMode.normal": "block",
@@ -330,7 +341,7 @@
         "statusBar.debuggingBackground": "#F4B8E4",
         "statusBar.foreground": "#303446",
         "statusBar.debuggingForeground": "#303446"
-    }
+    },
     // =========================
     // Suggestions for future learning:
     // - Consider installing extensions for GraphQL, Redis, AWS, Docker, Kubernetes, and C/Embedded development.
