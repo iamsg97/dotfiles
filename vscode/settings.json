@@ -2,20 +2,22 @@
     // =========================
     // General Editor Settings
     // =========================
+    "workbench.startupEditor": "none",
+    "workbench.sideBar.location": "right",
     "editor.tabSize": 4,
     "editor.detectIndentation": false,
-    "editor.fontFamily": "'Terminess Nerd Font', 'FiraCode Nerd Font'",
-    "editor.fontLigatures": true,
-    "editor.cursorSmoothCaretAnimation": "on",
-    "editor.cursorBlinking": "phase",
+    // "editor.fontFamily": "'Terminess Nerd Font', 'FiraCode Nerd Font'",
+    // "editor.fontLigatures": true,
+    // "editor.cursorSmoothCaretAnimation": "on",
+    // "editor.cursorBlinking": "phase",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
     // "editor.renderWhitespace": "all",
-    "editor.guides.indentation": false,
+    // "editor.guides.indentation": false,
     "editor.trimAutoWhitespace": true,
     "editor.smoothScrolling": true,
-    "editor.lineNumbers": "relative",
+    // "editor.lineNumbers": "relative",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit",
@@ -44,19 +46,19 @@
         "**/.next": true,
         "**/.nuxt": true
     },
-    "workbench.iconTheme": "catppuccin-frappe",
+    // "workbench.iconTheme": "catppuccin-frappe",
     "workbench.editor.enablePreview": false,
-    "workbench.colorTheme": "Catppuccin Frappé",
-    "catppuccin.accentColor": "teal",
+    // "workbench.colorTheme": "Catppuccin Frappé",
+    // "catppuccin.accentColor": "teal",
     "window.menuBarVisibility": "toggle",
-    "window.zoomLevel": 1,
+    // "window.zoomLevel": 1,
     "explorer.confirmDelete": false,
     "explorer.compactFolders": false,
     "breadcrumbs.enabled": true,
     // =========================
     // Terminal
     // =========================
-    "terminal.integrated.fontFamily": "'Terminess Nerd Font'",
+    // "terminal.integrated.fontFamily": "'Terminess Nerd Font'",
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.scrollback": 10000,
     // =========================
@@ -160,30 +162,30 @@
     // VIM - STATUS BAR COLORS
     // ========================================
     "vim.statusBarColorControl": true,
-    "vim.statusBarColors.normal": [
-        "#8BD5CA", // Teal (Catppuccin Frappé Teal)
-        "#303446" // Surface0
-    ],
-    "vim.statusBarColors.insert": [
-        "#99D1DB", // Blue (Catppuccin Frappé Blue)
-        "#303446"
-    ],
-    "vim.statusBarColors.visual": [
-        "#F4B8E4", // Pink (Catppuccin Frappé Pink)
-        "#303446"
-    ],
-    "vim.statusBarColors.visualline": [
-        "#F4B8E4", // Pink (Catppuccin Frappé Pink)
-        "#303446"
-    ],
-    "vim.statusBarColors.visualblock": [
-        "#8CAAEE", // Lavender (Catppuccin Frappé Lavender)
-        "#303446"
-    ],
-    "vim.statusBarColors.replace": [
-        "#E78284", // Red (Catppuccin Frappé Red)
-        "#303446"
-    ],
+    // "vim.statusBarColors.normal": [
+    //     "#8BD5CA", // Teal (Catppuccin Frappé Teal)
+    //     "#303446" // Surface0
+    // ],
+    // "vim.statusBarColors.insert": [
+    //     "#99D1DB", // Blue (Catppuccin Frappé Blue)
+    //     "#303446"
+    // ],
+    // "vim.statusBarColors.visual": [
+    //     "#F4B8E4", // Pink (Catppuccin Frappé Pink)
+    //     "#303446"
+    // ],
+    // "vim.statusBarColors.visualline": [
+    //     "#F4B8E4", // Pink (Catppuccin Frappé Pink)
+    //     "#303446"
+    // ],
+    // "vim.statusBarColors.visualblock": [
+    //     "#8CAAEE", // Lavender (Catppuccin Frappé Lavender)
+    //     "#303446"
+    // ],
+    // "vim.statusBarColors.replace": [
+    //     "#E78284", // Red (Catppuccin Frappé Red)
+    //     "#303446"
+    // ],
     // ========================================
     // VIM - KEY BINDINGS
     // ========================================
@@ -335,16 +337,96 @@
     // ========================================
     "cSpell.enabled": false,
     "extensions.ignoreRecommendations": true,
-    "workbench.colorCustomizations": {
-        "statusBar.background": "#F4B8E4",
-        "statusBar.noFolderBackground": "#F4B8E4",
-        "statusBar.debuggingBackground": "#F4B8E4",
-        "statusBar.foreground": "#303446",
-        "statusBar.debuggingForeground": "#303446"
+    // "workbench.colorCustomizations": {
+    //     "statusBar.background": "#8BD5CA",
+    //     "statusBar.noFolderBackground": "#8BD5CA",
+    //     "statusBar.debuggingBackground": "#8BD5CA",
+    //     "statusBar.foreground": "#303446",
+    //     "statusBar.debuggingForeground": "#303446"
+    // },
+    "editor.tokenColorCustomizations": {
+        "[*Light*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#000",
+                        "fontStyle": ""
+                    }
+                }
+            ]
+        },
+        "[*Dark*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#fff",
+                        "fontStyle": ""
+                    }
+                }
+            ]
+        }
     },
-    // =========================
-    // Suggestions for future learning:
-    // - Consider installing extensions for GraphQL, Redis, AWS, Docker, Kubernetes, and C/Embedded development.
-    // - Explore VSCode Remote - Containers for dev environments.
-    // - Use settings sync to keep your setup portable.
+    "git.openRepositoryInParentFolders": "always",
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#005f87",
+        "statusBar.noFolderBackground": "#005f87",
+        "statusBar.debuggingBackground": "#005f87",
+        "statusBar.foreground": "#ffffff",
+        "statusBar.debuggingForeground": "#ffffff",
+        "activityBar.activeBackground": "#65c89b",
+        "activityBar.background": "#65c89b",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#945bc4",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#15202b99",
+        "sash.hoverBorder": "#65c89b",
+        "statusBarItem.hoverBackground": "#359268",
+        "statusBarItem.remoteBackground": "#42b883",
+        "statusBarItem.remoteForeground": "#15202b",
+        "titleBar.activeBackground": "#42b883",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#42b88399",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.favoriteColors": [
+        {
+            "name": "Angular Red",
+            "value": "#dd0531"
+        },
+        {
+            "name": "Azure Blue",
+            "value": "#007fff"
+        },
+        {
+            "name": "JavaScript Yellow",
+            "value": "#f9e64f"
+        },
+        {
+            "name": "Mandalorian Blue",
+            "value": "#1857a4"
+        },
+        {
+            "name": "Node Green",
+            "value": "#215732"
+        },
+        {
+            "name": "React Blue",
+            "value": "#61dafb"
+        },
+        {
+            "name": "Something Different",
+            "value": "#832561"
+        },
+        {
+            "name": "Svelte Orange",
+            "value": "#ff3d00"
+        },
+        {
+            "name": "Vue Green",
+            "value": "#42b883"
+        }
+    ],
 }
