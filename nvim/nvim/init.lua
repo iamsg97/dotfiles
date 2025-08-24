@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
+vim.g.have_nerd_font = false
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -776,46 +776,6 @@ require("lazy").setup({
 			-- Shows a signature help window while you type arguments for a function
 			signature = { enabled = true },
 		},
-	},
-
-	{
-		"Mofiqul/vscode.nvim",
-		name = "vscode",
-		config = function()
-			local c = require("vscode.colors").get_colors()
-			require("vscode").setup({
-				-- Alternatively set style in setup
-				-- style = 'light'
-
-				-- Enable transparent background
-				transparent = true,
-
-				-- Enable italic comment
-				italic_comments = true,
-
-				-- Underline `@markup.link.*` variants
-				underline_links = true,
-
-				-- Disable nvim-tree background color
-				disable_nvimtree_bg = true,
-
-				-- Apply theme colors to terminal
-				terminal_colors = true,
-
-				-- Override colors (see ./lua/vscode/colors.lua)
-				color_overrides = {
-					vscLineNumber = "#FFFFFF",
-				},
-
-				-- Override highlight groups (see ./lua/vscode/theme.lua)
-				group_overrides = {
-					-- this supports the same val table as vim.api.nvim_set_hl
-					-- use colors from this colorscheme by requiring vscode.colors!
-					Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-				},
-			})
-			vim.cmd("colorscheme vscode")
-		end,
 	},
 
 	-- Highlight todo, notes, etc in comments
