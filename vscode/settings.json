@@ -3,17 +3,17 @@
     // General Editor Settings
     // =========================
     "workbench.startupEditor": "none",
-    "workbench.sideBar.location": "right",
+    // "workbench.sideBar.location": "right",
     "editor.tabSize": 4,
     "editor.detectIndentation": false,
     // "editor.fontFamily": "'Terminess Nerd Font', 'FiraCode Nerd Font'",
-    // "editor.fontLigatures": true,
-    // "editor.cursorSmoothCaretAnimation": "on",
-    // "editor.cursorBlinking": "phase",
+    "editor.fontLigatures": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorBlinking": "phase",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "editor.minimap.enabled": false,
-    // "editor.renderWhitespace": "all",
+    "editor.renderWhitespace": "all",
     // "editor.guides.indentation": false,
     "editor.trimAutoWhitespace": true,
     "editor.smoothScrolling": true,
@@ -88,14 +88,14 @@
     "javascript.format.enable": false,
     "typescript.suggest.autoImports": true,
     "[typescript]": {
-        "editor.tabSize": 2,
+        "editor.tabSize": 4,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[javascript]": {
-        "editor.tabSize": 2,
+        "editor.tabSize": 4,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[json]": {
@@ -370,26 +370,26 @@
     },
     "git.openRepositoryInParentFolders": "always",
     "workbench.colorCustomizations": {
-        "statusBar.background": "#005f87",
-        "statusBar.noFolderBackground": "#005f87",
-        "statusBar.debuggingBackground": "#005f87",
+        "statusBar.background": "#005f5f",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f",
         "statusBar.foreground": "#ffffff",
         "statusBar.debuggingForeground": "#ffffff",
-        "activityBar.activeBackground": "#65c89b",
-        "activityBar.background": "#65c89b",
-        "activityBar.foreground": "#15202b",
-        "activityBar.inactiveForeground": "#15202b99",
-        "activityBarBadge.background": "#945bc4",
+        "activityBar.activeBackground": "#2f7c47",
+        "activityBar.background": "#2f7c47",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#422c74",
         "activityBarBadge.foreground": "#e7e7e7",
-        "commandCenter.border": "#15202b99",
-        "sash.hoverBorder": "#65c89b",
-        "statusBarItem.hoverBackground": "#359268",
-        "statusBarItem.remoteBackground": "#42b883",
-        "statusBarItem.remoteForeground": "#15202b",
-        "titleBar.activeBackground": "#42b883",
-        "titleBar.activeForeground": "#15202b",
-        "titleBar.inactiveBackground": "#42b88399",
-        "titleBar.inactiveForeground": "#15202b99"
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#2f7c47",
+        "statusBarItem.hoverBackground": "#2f7c47",
+        "statusBarItem.remoteBackground": "#215732",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#215732",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#21573299",
+        "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.favoriteColors": [
         {
@@ -427,6 +427,63 @@
         {
             "name": "Vue Green",
             "value": "#42b883"
+        },
+        {
+            "name": "Mint Green",
+            "value": "#98ff98"
+        },
+        {
+            "name": "Seafoam Green",
+            "value": "#93e9be"
+        },
+        {
+            "name": "Teal Blue",
+            "value": "#3eb489"
+        },
+        {
+            "name": "Sky Blue",
+            "value": "#87ceeb"
+        },
+        {
+            "name": "Powder Blue",
+            "value": "#b0e0e6"
+        },
+        {
+            "name": "Turquoise",
+            "value": "#40e0d0"
+        },
+        {
+            "name": "Pale Aqua",
+            "value": "#b8fff9"
+        },
+        {
+            "name": "Celeste",
+            "value": "#b2ffff"
+        },
+        {
+            "name": "Cornflower Blue",
+            "value": "#6495ed"
+        },
+        {
+            "name": "Dodger Blue",
+            "value": "#1e90ff"
+        },
+        {
+            "name": "Steel Blue",
+            "value": "#4682b4"
+        },
+        {
+            "name": "Deep Sky Blue",
+            "value": "#00bfff"
+        },
+        {
+            "name": "Royal Blue",
+            "value": "#4169e1"
+        },
+        {
+            "name": "Medium Slate Blue",
+            "value": "#7b68ee"
         }
     ],
+    "remote.autoForwardPortsSource": "hybrid"
 }
