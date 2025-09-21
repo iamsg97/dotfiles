@@ -1,63 +1,81 @@
 // Place your key bindings in this file to override the defaults
 [
-	{
-		"key": "ctrl+m",
-		"command": "workbench.action.nextEditor"
-	},
-	{
-		"key": "ctrl+n",
-		"command": "workbench.action.previousEditor"
-	},
-	{
-		"key": "alt+ctrl+right",
-		"command": "-workbench.action.nextEditor"
-	},
-	{
-		"key": "alt+ctrl+left",
-		"command": "-workbench.action.previousEditor"
-	},
-	{
-		"key": "shift+ctrl+i",
-		"command": "outline.focus"
-	},
-	{
-		"key": "ctrl+shift+]",
-		"command": "editor.action.peekDefinition",
-		"when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
-	},
-	{
-		"key": "alt+f12",
-		"command": "-editor.action.peekDefinition",
-		"when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
-	},
-	{
-		"key": "ctrl+w o",
-		"command": "workbench.action.minimizeOtherEditors"
-	},
-	{
-		"key": "ctrl+w =",
-		"command": "workbench.action.evenEditorWidths"
-	},
-	{
-		"key": "ctrl+w s",
-		"command": "workbench.action.splitEditorDown"
-	},
-	{
-		"key": "ctrl+w v",
-		"command": "workbench.action.splitEditor"
-	},
-	{
-		"key": "ctrl+\\",
-		"command": "-workbench.action.splitEditor"
-	},
-	{
-		"key": "ctrl+]",
-		"command": "editor.action.revealDefinition",
-		"when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-	},
-	{
-		"key": "f12",
-		"command": "-editor.action.revealDefinition",
-		"when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-	}
+    {
+        "key": "ctrl+m",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "workbench.action.previousEditor"
+    },
+    {
+        "key": "alt+ctrl+right",
+        "command": "-workbench.action.nextEditor"
+    },
+    {
+        "key": "alt+ctrl+left",
+        "command": "-workbench.action.previousEditor"
+    },
+    {
+        "key": "shift+ctrl+i",
+        "command": "outline.focus"
+    },
+    {
+        "key": "ctrl+shift+]",
+        "command": "editor.action.peekDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
+    {
+        "key": "alt+f12",
+        "command": "-editor.action.peekDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+w o",
+        "command": "workbench.action.minimizeOtherEditors"
+    },
+    {
+        "key": "ctrl+w =",
+        "command": "workbench.action.evenEditorWidths"
+    },
+    {
+        "key": "ctrl+w s",
+        "command": "workbench.action.splitEditorDown"
+    },
+    {
+        "key": "ctrl+w v",
+        "command": "workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+\\",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+]",
+        "command": "editor.action.revealDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+shift+/",
+        "command": "editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "shift+alt+a",
+        "command": "-editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "f12",
+        "command": "-editor.action.revealDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+        "key": "ctrl+alt+down",
+        "command": "workbench.action.splitEditorUp"
+    },
+    {
+        "key": "ctrl+alt+up",
+        "command": "workbench.action.closeActiveEditor"
+    }
 ]
