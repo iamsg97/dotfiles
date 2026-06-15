@@ -1,100 +1,132 @@
 {
-    "github.copilot.nextEditSuggestions.enabled": true,
-    // ——— Core formatting: Biome (no Prettier) ———
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
-    "editor.formatOnPaste": false,
-    "editor.defaultFormatter": "biomejs.biome",
+  "chat.mcp.gallery.enabled": true,
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "claudeCode.preferredLocation": "panel",
+  "vs-kubernetes": {
+    "vscode-kubernetes.helm-path-windows": "C:\\Users\\iamsg\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe",
+    "vscode-kubernetes.minikube-path-windows": "C:\\Users\\iamsg\\.vs-kubernetes\\tools\\minikube\\windows-amd64\\minikube.exe",
+  },
+  "security.allowedUNCHosts": ["wsl.localhost"],
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "remote.autoForwardPortsSource": "hybrid",
+  "azureTerraform.survey": {
+    "surveyPromptDate": "2026-12-10T18:07:55.970Z",
+    "surveyPromptIgnoredCount": 0
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "notebook.defaultFormatter": "esbenp.prettier-vscode",
+  "workbench.colorTheme": "Atom One Dark",
+  "editor.fontFamily": "Cascadia Code",
+  "editor.fontLigatures": true,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": { "fontStyle": "italic" },
+      },
+    ],
+  },
+  "editor.lineNumbers": "relative",
+  "editor.renderLineHighlight": "all",
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
 
-    // Language-specific formatters
-    "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[json]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
-    "[html]": { "editor.defaultFormatter": "vscode.html-language-features" },
-    "[css]": { "editor.defaultFormatter": "vscode.css-language-features" },
-    "[scss]": { "editor.defaultFormatter": "vscode.css-language-features" },
-    "[markdown]": { "editor.defaultFormatter": "vscode.markdown-language-features" },
+  "vim.leader": "<space>",
+  "vim.hlsearch": true,
+  "vim.ignorecase": true,
+  "vim.smartcase": true,
+  "vim.highlightedyank.enable": true,
+  "vim.useSystemClipboard": true,
 
-    // Save actions: format with Biome, lint fixes with ESLint, organize imports (fast + reliable)
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always",
-        "source.fixAll.eslint": "always"
-        // note: no "source.fixAll.biome" to avoid conflicts if ESLint is present
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // Y = yank till end of line (matches your nvim mapping)
+    { "before": ["Y"], "after": ["y", "$"] },
+
+    // re-center screen after search jump (n/N -> nzz/Nzz)
+    { "before": ["n"], "after": ["n", "z", "z"] },
+    { "before": ["N"], "after": ["N", "z", "z"] },
+
+    // <leader>noh -> clear search highlight
+    { "before": ["<leader>", "n", "o", "h"], "commands": [":nohl"] },
+
+    // <leader>q -> save & close (wqa)
+    {
+      "before": ["<leader>", "q"],
+      "commands": [
+        "workbench.action.files.saveAll",
+        "workbench.action.closeAllEditors",
+      ],
     },
 
-    // ——— Editor & files ergonomics ———
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 1200,
-    "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true,
-    "files.eol": "\n",
-    "editor.tabSize": 4,
-    "editor.detectIndentation": true,
-    "editor.minimap.enabled": false,
-    "editor.renderWhitespace": "boundary",
-    "editor.cursorBlinking": "smooth",
-    "editor.linkedEditing": true,
-    "editor.stickyScroll.enabled": true,
-    "editor.bracketPairColorization.enabled": true,
-    "workbench.startupEditor": "none",
-    "workbench.editor.enablePreview": true,
-    "explorer.compactFolders": true,
-    "telemetry.telemetryLevel": "off",
-
-    // ——— TypeScript/JavaScript productivity ———
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "typescript.preferences.importModuleSpecifier": "shortest",
-    "javascript.preferences.importModuleSpecifier": "shortest",
-    "typescript.inlayHints.parameterNames.enabled": "literals",
-    "typescript.inlayHints.variableTypes.enabled": false,
-    "typescript.enablePromptUseWorkspaceTsdk": true,
-    "tsserver.maxTsServerMemory": 3072,
-
-    // ——— ESLint: lint only (Biome handles formatting) ———
-    "eslint.useFlatConfig": true,
-    "eslint.format.enable": false,
-    "eslint.codeActionsOnSave.mode": "problems",
-    "eslint.workingDirectories": [{ "mode": "auto" }],
-
-    // ——— Performance: file watching & search ———
-    "files.watcherExclude": {
-        "**/.git/**": true,
-        "**/node_modules/**": true,
-        "**/dist/**": true,
-        "**/build/**": true,
-        "**/out/**": true,
-        "**/.next/**": true,
-        "**/.nuxt/**": true,
-        "**/.svelte-kit/**": true,
-        "**/.vite/**": true,
-        "**/.turbo/**": true,
-        "**/coverage/**": true,
-        "**/.cache/**": true
-    },
-    "search.exclude": {
-        "**/node_modules": true,
-        "**/dist": true,
-        "**/build": true,
-        "**/out": true,
-        "**/.next": true,
-        "**/.nuxt": true,
-        "**/.svelte-kit": true,
-        "**/.vite": true,
-        "**/.turbo": true,
-        "**/coverage": true
+    // <leader>Q -> close without saving
+    {
+      "before": ["<leader>", "Q"],
+      "commands": ["workbench.action.revertAndCloseActiveEditor"],
     },
 
-    // ——— Git & terminal ———
-    "git.autofetch": true,
-    "git.confirmSync": false,
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "terminal.integrated.scrollback": 10000,
-    "terminal.integrated.gpuAcceleration": "auto",
-    "console-ninja.featureSet": "Community",
-    "chat.mcp.gallery.enabled": true,
-    "workbench.iconTheme": "vscode-icons"
+    // LSP-style bindings -> map to VS Code native commands
+    { "before": ["<leader>", "l", "r"], "commands": ["editor.action.rename"] },
+    {
+      "before": ["<leader>", "l", "R"],
+      "commands": ["editor.action.goToReferences"],
+    },
+    {
+      "before": ["<leader>", "l", "d"],
+      "commands": ["editor.action.revealDefinition"],
+    },
+    {
+      "before": ["<leader>", "l", "a"],
+      "commands": ["editor.action.quickFix"],
+    },
+    {
+      "before": ["<leader>", "l", "e"],
+      "commands": ["editor.action.showHover"],
+    },
+
+    // Telescope -> VS Code pickers
+    {
+      "before": ["<leader>", "t", "f"],
+      "commands": ["workbench.action.quickOpen"],
+    },
+    {
+      "before": ["<leader>", "t", "g"],
+      "commands": ["workbench.action.findInFiles"],
+    },
+    {
+      "before": ["<leader>", "t", "b"],
+      "commands": ["workbench.action.showAllEditors"],
+    },
+    {
+      "before": ["<leader>", "t", "r"],
+      "commands": ["workbench.action.openRecent"],
+    },
+    {
+      "before": ["<leader>", "t", "d"],
+      "commands": ["workbench.actions.view.problems"],
+    },
+
+    // Aerial (symbol outline) -> Outline view
+    { "before": ["<leader>", "a"], "commands": ["outline.focus"] },
+
+    // Oil (file explorer as text) -> Explorer
+    { "before": ["<leader>", "o"], "commands": ["workbench.view.explorer"] },
+  ],
+
+  "vim.visualModeKeyBindingsNonRecursive": [
+    // gc -> toggle comment (Comment.nvim equivalent)
+    { "before": ["g", "c"], "commands": ["editor.action.commentLine"] },
+  ],
+  "vim.handleKeys": {
+    "<C-p>": false,
+    "<C-b>": false,
+    "<C-x>": false,
+    "<C-a>": false,
+    "<C-f>": false,
+    "<C-e>": false,
+    "<C-n>": false,
+    "<C-`>": false,
+  },
 }
