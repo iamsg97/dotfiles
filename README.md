@@ -36,7 +36,154 @@ Both scripts are idempotent — safe to re-run.
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, nvim as editor |
 | `zellij/config.kdl` | Srcery theme, borderless compact layout, Yazi + cheatsheet keybinds |
 | `zellij/cheatsheet.md` | Keybinding reference, opened with `Ctrl+?` inside zellij |
-| `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, yazi.nvim, conform.nvim formatting |
+| `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, neogit + diffview, yazi.nvim, conform.nvim formatting |
+
+## Zellij quick reference
+
+> The full, always-up-to-date keybinding cheatsheet lives in [`zellij/cheatsheet.md`](zellij/cheatsheet.md)
+> and opens in a floating pane with **`Ctrl + ?`** from inside zellij.
+
+### CLI / help commands
+
+`zellij --help` lists everything; the ones used day to day (fish abbreviations from `config.fish` in **bold**):
+
+| Command | Abbrev | Purpose |
+| --- | --- | --- |
+| `zellij` | **`zj`** | Start a new session |
+| `zellij attach` | **`zja`** | Attach to an existing session (`-c <name>` creates if missing) |
+| `zellij list-sessions` | **`zjls`** | List active sessions (alias `zellij ls`) |
+| `zn` | — | fish function: attach to / create a session named after the current dir |
+| `zellij --session <name>` | — | Start a new **named** session |
+| `zellij --layout <name>` | — | Start with a predefined layout |
+| `zellij kill-session <name>` / `kill-all-sessions` | — | Kill one / all sessions (`k` / `ka`) |
+| `zellij delete-session <name>` / `delete-all-sessions` | — | Delete exited sessions (`d` / `da`) |
+| `zellij setup --check` | — | Verify config and print paths/dirs |
+| `zellij run -- <cmd>` | — | Run a command in a new pane (`r`) |
+| `zellij edit <file>` | — | Open a file in `$EDITOR` in a new pane (`e`) |
+
+### Keybindings
+
+This config starts in **`locked`** mode (keys pass straight through to your shell/editor), so the first
+thing to know is the unlock key. Enter a mode (e.g. `Ctrl + p`), press the action key, then `Esc`/`Enter` to return.
+
+**Global / modes**
+
+| Keybinding | Action |
+| --- | --- |
+| `Ctrl + g` | Lock / unlock (toggle whether zellij intercepts keys) |
+| `Ctrl + q` | Quit zellij |
+| `Ctrl + ?` | Open this cheatsheet in a floating pane *(custom binding)* |
+| `Alt + y` | Open Yazi file manager in a floating pane *(custom binding)* |
+| `Ctrl + p` / `t` / `s` / `n` / `h` / `o` | Enter Pane / Tab / Scroll / Resize / Move / Session mode |
+
+**Panes** (`Ctrl + p`)
+
+| Keybinding | Action |
+| --- | --- |
+| `n` / `Alt + n` | New pane |
+| `d` / `r` | Split down / right |
+| `x` | Close pane |
+| `f` | Toggle fullscreen zoom |
+| `w` | Toggle floating |
+| `z` | Toggle pane frames |
+| `Tab` / `Shift + Tab` | Next / previous pane |
+| `Alt + h/j/k/l` | Move focus left/down/up/right |
+
+**Tabs** (`Ctrl + t`)
+
+| Keybinding | Action |
+| --- | --- |
+| `n` / `x` / `r` | New / close / rename tab |
+| `1` – `9` | Jump to tab by index |
+| `h` `l` or `[` `]` | Previous / next tab |
+| `Shift + [` / `]` | Move tab left / right |
+
+**Scroll & search** (`Ctrl + s`)
+
+| Keybinding | Action |
+| --- | --- |
+| `u` / `d`, `PgUp` / `PgDn` | Page up / down through scrollback |
+| `/` | Search the scrollback buffer |
+| `e` | Open the full scrollback in Neovim |
+
+**Resize** (`Ctrl + n`) **& move** (`Ctrl + h`)
+
+| Keybinding | Action |
+| --- | --- |
+| `h/j/k/l` | Resize toward / swap pane in that direction |
+| `-` / `+` | Shrink / grow pane |
+
+**Sessions** (`Ctrl + o`)
+
+| Keybinding | Action |
+| --- | --- |
+| `d` | Detach from the session (leaves it running) |
+| `w` | Open the interactive session manager |
+
+## Git in Neovim (Neogit)
+
+Three complementary tools, plus `lazygit` as a standalone TUI:
+
+- **gitsigns** — inline hunk signs, stage/reset/preview a single hunk (`<leader>h*`, see `gitsigns.lua`).
+- **Neogit** — a Magit-style full Git UI (status, stage, commit, branch, push/pull, log).
+- **diffview** — side-by-side diffs, file history, and the 3-way view for resolving merge conflicts.
+
+### Keybindings (leader = `Space`)
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>gg` | Open Neogit status (the main hub) |
+| `<leader>gc` | Commit popup |
+| `<leader>gl` | Commit log |
+| `<leader>gp` / `<leader>gP` | Pull / push |
+| `<leader>gd` | Diff view of the working tree |
+| `<leader>gm` | Open the merge-conflict resolution view |
+| `<leader>gh` | File history of the current file |
+| `<leader>gx` | Close the diff view |
+
+### Inside the Neogit status buffer
+
+| Key | Action |
+| --- | --- |
+| `s` / `u` | Stage / unstage the item under the cursor |
+| `S` / `U` | Stage / unstage everything |
+| `<Tab>` | Toggle the inline diff for an item |
+| `c c` | Commit (opens message buffer; save+close with `:wq` to confirm) |
+| `p` / `P` | Pull / push popup |
+| `b` | Branch popup (checkout / create) |
+| `l l` | Log popup |
+| `<CR>` | Jump to the file under the cursor |
+| `?` | Built-in help (lists every key) · `q` closes the buffer |
+
+### Resolving a merge conflict
+
+When a `git merge`/`rebase`/`pull` stops with conflicts:
+
+1. Open the resolution view: **`<leader>gm`** (`:DiffviewOpen`). The file panel (top-left) lists every
+   conflicted file; selecting one shows a 3-way layout — **OURS** (your branch) on the left,
+   **THEIRS** (incoming) on the right, and the working result in the center.
+2. Jump between conflict regions with **`]x`** / **`[x`**.
+3. For each region, choose a side (these are diffview's defaults, applied to the region under the cursor):
+
+   | Key | Takes |
+   | --- | --- |
+   | `<leader>co` | **O**urs |
+   | `<leader>ct` | **T**heirs |
+   | `<leader>cb` | **B**ase (common ancestor) |
+   | `<leader>ca` | **A**ll (keep both, in order) |
+   | `dx` | Delete the region (keep neither) |
+
+   To take one side for the **whole file** at once, use the uppercase variants in the file panel:
+   `<leader>cO` / `<leader>cT` / `<leader>cB` / `<leader>cA`.
+4. Save the file (`:w`). Once a file has no remaining conflict markers, stage it — press `s` on it in the
+   diffview file panel (or in Neogit's status buffer).
+5. Repeat for every file in the panel, then close the view with **`<leader>gx`**.
+6. Finish the operation back in Neogit (`<leader>gg`): for a merge, commit with `c c`; for a rebase,
+   open the rebase popup with `r` and choose **continue**. Need to bail out entirely? `r` → **abort**
+   (or `:Neogit` → the relevant abort action) runs `git merge/rebase --abort`.
+
+> Prefer the terminal? `lazygit` resolves conflicts too, and `git mergetool` will launch your
+> `$EDITOR` (Neovim). The Neogit/diffview flow above is the in-editor path and is usually fastest.
 
 ## Notable deviations from the reference repo
 
