@@ -16,6 +16,6 @@ require("lazy").setup({
     spec = {
         { import = "plugins" },
     },
-    install = { colorscheme = { "srcery" } },
+    install = { colorscheme = { "edge" } },
     checker = { enabled = false },
 })
