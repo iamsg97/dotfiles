@@ -1,6 +1,8 @@
--- rust-analyzer and gopls are NOT managed by mason here — they're already on PATH
--- via `rustup component add rust-analyzer` and `go install golang.org/x/tools/gopls`
--- (see dependencies.sh), so lspconfig just points at the system binaries.
+-- rust-analyzer, gopls, and ruff are NOT managed by mason here — they're already
+-- on PATH via `rustup component add rust-analyzer`, `go install golang.org/x/tools/gopls`,
+-- and `uv tool install ruff` (see dependencies.sh), so lspconfig just points at the
+-- system binaries. Mason's ruff installer shells out to the system python3's pip,
+-- which isn't guaranteed to have the pip module installed.
 return {
     {
         "mason-org/mason.nvim",
@@ -13,7 +15,6 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "pyright",
-                "ruff",
                 "ts_ls",
                 "jdtls",
                 "bashls",
@@ -42,14 +43,11 @@ return {
                 end,
             })
 
-            local lspconfig = require("lspconfig")
-            local servers = { "lua_ls", "pyright", "ruff", "ts_ls", "jdtls", "bashls", "jsonls", "yamlls" }
-            for _, server in ipairs(servers) do
-                lspconfig[server].setup({ capabilities = capabilities })
-            end
+            vim.lsp.config("*", { capabilities = capabilities })
 
-            lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-            lspconfig.gopls.setup({ capabilities = capabilities })
+            local servers =
+                { "lua_ls", "pyright", "ruff", "ts_ls", "jdtls", "bashls", "jsonls", "yamlls", "rust_analyzer", "gopls" }
+            vim.lsp.enable(servers)
         end,
     },
 }
