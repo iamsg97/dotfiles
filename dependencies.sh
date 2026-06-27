@@ -92,6 +92,14 @@ if [[ ! -x /opt/nvim/bin/nvim ]]; then
 fi
 echo "==> $(nvim --version | head -1)"
 
+echo "==> Installing tree-sitter CLI (nvim-treesitter 'main' branch compiles parsers with it)"
+if ! command -v tree-sitter >/dev/null; then
+    fetch_latest_asset "tree-sitter/tree-sitter" 'tree-sitter-linux-x64\.gz"' /tmp/tree-sitter.gz
+    gunzip -f /tmp/tree-sitter.gz
+    install -m 755 /tmp/tree-sitter "$HOME/.local/bin/tree-sitter"
+fi
+echo "==> tree-sitter $(tree-sitter --version)"
+
 echo "==> Installing Zellij"
 if ! command -v zellij >/dev/null; then
     fetch_latest_asset "zellij-org/zellij" 'zellij-x86_64-unknown-linux-musl\.tar\.gz"' /tmp/zellij.tar.gz
