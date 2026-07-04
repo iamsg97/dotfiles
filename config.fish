@@ -1,6 +1,6 @@
 # Adapted from https://github.com/cetanu/dotfiles for Pop!_OS/Linux + fish.
-# Dropped: macOS-only bits (opam, cloudtoken, Wireshark.app path), niche aliases
-# for tools we didn't install (dog), and the zellij "z" alias (zoxide owns "z" here).
+# Dropped: macOS-only bits (opam, cloudtoken, Wireshark.app path) and niche aliases
+# for tools we didn't install (dog).
 
 # --- Rust CLI replacements ---
 alias ls="lsd --long --human-readable --group-dirs first --gitsort --git --blocks permission,size,date,git,name --date relative --size short --permission octal"
@@ -46,17 +46,17 @@ starship init fish | source
 # --- zoxide ---
 zoxide init fish | source
 
-# --- Zellij integration ---
-abbr -a zj "zellij"
-abbr -a zja "zellij attach"
-abbr -a zjls "zellij list-sessions"
+# --- tmux integration ---
+abbr -a tm "tmux"
+abbr -a tma "tmux attach"
+abbr -a tml "tmux list-sessions"
 
-function zn --description "Attach to (or create) a zellij session named after the current directory"
-    if set -q ZELLIJ
-        echo "Already inside a Zellij session!"
+function tn --description "Attach to (or create) a tmux session named after the current directory"
+    if set -q TMUX
+        echo "Already inside a tmux session!"
     else
         set -l session_name (basename (pwd) | tr '.' '_')
-        zellij attach -c $session_name
+        tmux new-session -A -s $session_name
     end
 end
 

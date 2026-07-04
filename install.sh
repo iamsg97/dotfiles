@@ -25,9 +25,8 @@ echo "fish config installed"
 link "$DOTFILES/starship.toml" ~/.config/starship/starship.toml
 echo "starship config installed"
 
-link "$DOTFILES/zellij/config.kdl" ~/.config/zellij/config.kdl
-link "$DOTFILES/zellij/cheatsheet.md" ~/.config/zellij/cheatsheet.md
-echo "zellij config + cheatsheet installed"
+link "$DOTFILES/tmux.conf" ~/.tmux.conf
+echo "tmux config installed"
 
 link "$DOTFILES/gitconfig" ~/.gitconfig
 echo "gitconfig installed"

@@ -5,7 +5,7 @@ Personal dotfiles for Pop!_OS, built with reference to
 
 - **apt** instead of Homebrew (Pop!_OS/Ubuntu 24.04)
 - the **default system terminal** (COSMIC Terminal) instead of Ghostty/Alacritty/WezTerm
-- **fish** as the default login shell, **starship** prompt, **zellij** multiplexer, **yazi** file manager
+- **fish** as the default login shell, **starship** prompt, **tmux** multiplexer, **yazi** file manager
 - a from-scratch **Neovim** config (lazy.nvim) instead of the original author's personal modules
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
 
@@ -14,111 +14,65 @@ Personal dotfiles for Pop!_OS, built with reference to
 ```sh
 git clone <this repo> ~/dotfiles   # or just use it in place
 cd ~/dotfiles
-./dependencies.sh   # installs everything (apt packages, rustup, pyenv, fnm, go, nvim, zellij, yazi, lazygit, starship, a Nerd Font)
-./install.sh        # symlinks configs into ~/.config and sets fish as your login shell
+./setup.sh          # one-shot: installs everything, then symlinks the configs
 ```
+
+`setup.sh` is the single entry point — it runs `dependencies.sh` (apt packages, rustup, pyenv, fnm, go,
+nvim, tmux, yazi, lazygit, starship, a Nerd Font) and then `install.sh` (symlinks configs into `~/.config`
+and sets fish as your login shell). Run a phase on its own with `./setup.sh --deps` or `./setup.sh --link`.
 
 After that:
 1. Log out/in (or reboot) so the default shell change takes effect.
-2. Open your terminal's settings and set the font to **JetBrainsMono Nerd Font** (needed for the icons used by `lsd`, `starship`, and `zellij`).
+2. Open your terminal's settings and set the font to **JetBrainsMono Nerd Font** (needed for the icons used by `lsd` and `starship`).
 3. Open `nvim` once — `lazy.nvim` bootstraps itself and Mason installs the LSPs/formatters on first launch.
 
-Both scripts are idempotent — safe to re-run.
+Everything is idempotent — safe to re-run.
 
 ## What's in here
 
 | File / dir | Purpose |
 | --- | --- |
+| `setup.sh` | One-shot entry point: runs `dependencies.sh` then `install.sh` |
 | `dependencies.sh` | Installs all CLI tools and language toolchains |
-| `install.sh` | Symlinks configs into `~/.config`, sets fish as login shell |
+| `install.sh` | Symlinks configs into `~/.config` (and `~/.tmux.conf`), sets fish as login shell |
 | `config.fish` | Aliases, PATH, prompt/tool init (starship, zoxide, fnm, pyenv) |
 | `starship.toml` | Minimal prompt: time, dir, git, command duration |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, nvim as editor |
-| `zellij/config.kdl` | Srcery theme, borderless compact layout, Yazi + cheatsheet keybinds |
-| `zellij/cheatsheet.md` | Keybinding reference, opened with `Ctrl+?` inside zellij |
+| `tmux.conf` | Mouse on, 1-based numbering, `\|`/`-` splits (current path), Ctrl+arrows to switch panes |
 | `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, neogit + diffview, yazi.nvim, conform.nvim formatting |
 
-## Zellij quick reference
+## tmux quick reference
 
-> The full, always-up-to-date keybinding cheatsheet lives in [`zellij/cheatsheet.md`](zellij/cheatsheet.md)
-> and opens in a floating pane with **`Ctrl + ?`** from inside zellij.
+The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) is deliberately minimal and keeps the
+default **prefix `Ctrl + b`**. Mouse mode is on, so most pane/window selection and resizing can be done by
+click and drag.
 
-### CLI / help commands
-
-`zellij --help` lists everything; the ones used day to day (fish abbreviations from `config.fish` in **bold**):
+### CLI / fish abbreviations (from `config.fish`, in **bold**)
 
 | Command | Abbrev | Purpose |
 | --- | --- | --- |
-| `zellij` | **`zj`** | Start a new session |
-| `zellij attach` | **`zja`** | Attach to an existing session (`-c <name>` creates if missing) |
-| `zellij list-sessions` | **`zjls`** | List active sessions (alias `zellij ls`) |
-| `zn` | — | fish function: attach to / create a session named after the current dir |
-| `zellij --session <name>` | — | Start a new **named** session |
-| `zellij --layout <name>` | — | Start with a predefined layout |
-| `zellij kill-session <name>` / `kill-all-sessions` | — | Kill one / all sessions (`k` / `ka`) |
-| `zellij delete-session <name>` / `delete-all-sessions` | — | Delete exited sessions (`d` / `da`) |
-| `zellij setup --check` | — | Verify config and print paths/dirs |
-| `zellij run -- <cmd>` | — | Run a command in a new pane (`r`) |
-| `zellij edit <file>` | — | Open a file in `$EDITOR` in a new pane (`e`) |
+| `tmux` | **`tm`** | Start a new session |
+| `tmux attach` | **`tma`** | Attach to the last session (`-t <name>` targets one) |
+| `tmux list-sessions` | **`tml`** | List active sessions |
+| `tn` | — | fish function: attach to / create a session named after the current dir |
+| `tmux new -s <name>` | — | Start a new **named** session |
+| `tmux kill-session -t <name>` / `kill-server` | — | Kill one / all sessions |
 
 ### Keybindings
 
-This config starts in **`locked`** mode (keys pass straight through to your shell/editor), so the first
-thing to know is the unlock key. Enter a mode (e.g. `Ctrl + p`), press the action key, then `Esc`/`Enter` to return.
-
-**Global / modes**
+Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings from `tmux.conf`:
 
 | Keybinding | Action |
 | --- | --- |
-| `Ctrl + g` | Lock / unlock (toggle whether zellij intercepts keys) |
-| `Ctrl + q` | Quit zellij |
-| `Ctrl + ?` | Open this cheatsheet in a floating pane *(custom binding)* |
-| `Alt + y` | Open Yazi file manager in a floating pane *(custom binding)* |
-| `Ctrl + p` / `t` / `s` / `n` / `h` / `o` | Enter Pane / Tab / Scroll / Resize / Move / Session mode |
+| `prefix` then `\|` | Split pane horizontally (new pane in the current path) |
+| `prefix` then `-` | Split pane vertically (new pane in the current path) |
+| `prefix` then `r` | Reload `~/.tmux.conf` |
+| `Ctrl + ←/→/↑/↓` | Switch panes (no prefix needed) |
+| `prefix` then `c` / `,` / `&` | New window / rename window / kill window *(tmux defaults)* |
+| `prefix` then `d` | Detach (session keeps running) |
+| `prefix` then `[` | Enter copy/scroll mode (`q` exits) |
 
-**Panes** (`Ctrl + p`)
-
-| Keybinding | Action |
-| --- | --- |
-| `n` / `Alt + n` | New pane |
-| `d` / `r` | Split down / right |
-| `x` | Close pane |
-| `f` | Toggle fullscreen zoom |
-| `w` | Toggle floating |
-| `z` | Toggle pane frames |
-| `Tab` / `Shift + Tab` | Next / previous pane |
-| `Alt + h/j/k/l` | Move focus left/down/up/right |
-
-**Tabs** (`Ctrl + t`)
-
-| Keybinding | Action |
-| --- | --- |
-| `n` / `x` / `r` | New / close / rename tab |
-| `1` – `9` | Jump to tab by index |
-| `h` `l` or `[` `]` | Previous / next tab |
-| `Shift + [` / `]` | Move tab left / right |
-
-**Scroll & search** (`Ctrl + s`)
-
-| Keybinding | Action |
-| --- | --- |
-| `u` / `d`, `PgUp` / `PgDn` | Page up / down through scrollback |
-| `/` | Search the scrollback buffer |
-| `e` | Open the full scrollback in Neovim |
-
-**Resize** (`Ctrl + n`) **& move** (`Ctrl + h`)
-
-| Keybinding | Action |
-| --- | --- |
-| `h/j/k/l` | Resize toward / swap pane in that direction |
-| `-` / `+` | Shrink / grow pane |
-
-**Sessions** (`Ctrl + o`)
-
-| Keybinding | Action |
-| --- | --- |
-| `d` | Detach from the session (leaves it running) |
-| `w` | Open the interactive session manager |
+Windows and panes are **1-indexed** and windows renumber automatically when one is closed.
 
 ## Git in Neovim (Neogit)
 
@@ -188,7 +142,7 @@ When a `git merge`/`rebase`/`pull` stops with conflicts:
 ## Notable deviations from the reference repo
 
 - **No terminal-emulator configs** (no `alacritty.yml`/`ghostty.config`/`wezterm.lua`) — you're using the system default terminal, so there's nothing to configure there beyond the font.
-- **`z` belongs to zoxide**, not zellij — both tools want that mnemonic; directory-jumping muscle memory wins. Zellij's shortcuts are abbreviations instead: `zj` (run), `zja` (attach), `zjls` (list sessions), plus the `zn` function (attach to/create a session named after the cwd).
+- **tmux instead of zellij** — the multiplexer config comes from [iamsg97/dotfiles](https://github.com/iamsg97/dotfiles) (`.tmux.conf`/`.tmux.config`) and installs from apt. Its fish shortcuts are `tm` (run), `tma` (attach), `tml` (list sessions), plus the `tn` function (attach to/create a session named after the cwd).
 - **Dropped macOS/author-specific bits**: Homebrew/OrbStack, `opam`, the `cloudtoken` sourcing, the Wireshark.app alias, and the `dog` alias (DNS lookup tool we didn't install).
 - **Trimmed the curated CLI tool list**: kept `bat`, `lsd`, `ripgrep`, `fd`, `fzf`, `zoxide`, `git-delta`, `lazygit`, `dua-cli`, `hyperfine`, `git-cliff`. Skipped the more author-specific niche tools (`jwt-ui`, `jless`, `envio`, `gitlogue`, `ducker`, `flamelens`, `csvlens`, `git-interactive-rebase-tool`).
 - **Neovim is downloaded directly from GitHub releases** into `/opt/nvim` rather than installed via apt (Ubuntu's packaged version is too old for current plugins) or built from source (unnecessary on Linux — prebuilt binaries exist).

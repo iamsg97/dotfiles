@@ -1,5 +1,4 @@
--- File manager integration, using the same yazi binary as the shell's `y` function
--- and zellij's Alt+y floating pane.
+-- File manager integration, using the same yazi binary as the shell's `y` function.
 return {
     "mikavilpas/yazi.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },

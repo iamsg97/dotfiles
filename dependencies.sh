@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs everything config.fish/zellij/nvim configs expect.
+# Installs everything config.fish/tmux/nvim configs expect.
 # Adapted from https://github.com/cetanu/dotfiles for Pop!_OS/Ubuntu (apt) instead of macOS (brew).
 set -euo pipefail
 
@@ -21,7 +21,7 @@ echo "==> Updating apt and installing base packages"
 sudo apt-get update
 sudo apt-get install -y \
     build-essential curl git unzip file fontconfig \
-    fish bat ripgrep fd-find fzf zoxide lsd git-delta \
+    fish tmux bat ripgrep fd-find fzf zoxide lsd git-delta \
     jq ffmpeg poppler-utils imagemagick p7zip-full luarocks chafa hyperfine \
     xclip wl-clipboard \
     golang-go openjdk-21-jdk
@@ -100,14 +100,6 @@ if ! command -v tree-sitter >/dev/null; then
 fi
 echo "==> tree-sitter $(tree-sitter --version)"
 
-echo "==> Installing Zellij"
-if ! command -v zellij >/dev/null; then
-    fetch_latest_asset "zellij-org/zellij" 'zellij-x86_64-unknown-linux-musl\.tar\.gz"' /tmp/zellij.tar.gz
-    tar -xzf /tmp/zellij.tar.gz -C "$HOME/.local/bin"
-    chmod +x "$HOME/.local/bin/zellij"
-fi
-echo "==> Zellij installed"
-
 echo "==> Installing Yazi"
 if ! command -v yazi >/dev/null; then
     fetch_latest_asset "sxyazi/yazi" 'yazi-x86_64-unknown-linux-gnu\.zip"' /tmp/yazi.zip
@@ -139,5 +131,5 @@ echo
 echo "All dependencies installed."
 echo "Next steps:"
 echo "  1. Run ./install.sh to symlink the configs into place."
-echo "  2. Open your terminal's settings and set the font to 'JetBrainsMono Nerd Font' (needed for icons in lsd/starship/zellij)."
+echo "  2. Open your terminal's settings and set the font to 'JetBrainsMono Nerd Font' (needed for icons in lsd/starship)."
 echo "  3. Restart your terminal so fish, fnm, pyenv, and rustup PATH changes take effect."
