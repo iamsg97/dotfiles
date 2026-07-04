@@ -1,356 +1,158 @@
-# Dotfiles Configuration
+# dotfiles
 
-A comprehensive collection of configuration files for a modern development environment featuring Bash, Tmux, and Neovim with a focus on productivity and developer experience.
+Personal dotfiles for Pop!_OS, built with reference to
+[cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
-## 🎯 Overview
+- **apt** instead of Homebrew (Pop!_OS/Ubuntu 24.04)
+- the **default system terminal** (COSMIC Terminal) instead of Ghostty/Alacritty/WezTerm
+- **fish** as the default login shell, **starship** prompt, **tmux** multiplexer, **yazi** file manager
+- a from-scratch **Neovim** config (lazy.nvim) instead of the original author's personal modules
+- toolchains for **Python, Rust, Go, TypeScript/Node and Java**
 
-This repository contains carefully curated configuration files that provide:
+## Setup
 
--   **Enhanced Terminal Experience**: Customized Bash environment with useful aliases and modern tooling support
--   **Terminal Multiplexing**: Productive Tmux configuration for session management and window splitting
--   **Modern Text Editor**: Feature-rich Neovim setup based on Kickstart.nvim with LSP, autocompletion, and formatting
--   **IDE Configuration**: VS Code settings and keybindings for optimal development workflow
-
-## 📋 Prerequisites
-
-### System Requirements
-
--   **Operating System**: Linux (tested on Ubuntu/Debian-based systems)
--   **Shell**: Bash (default on most Linux systems)
--   **Git**: Required for cloning and plugin management
--   **Make**: Required for building some Neovim plugins
--   **Unzip**: Required for plugin extraction
-
-### Required Tools
-
-#### Core Dependencies
-
-```bash
-# Essential tools
-sudo apt update && sudo apt install -y git make unzip curl wget
-
-# Node.js ecosystem (for JavaScript/TypeScript development)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-# Restart terminal, then:
-nvm install --lts
-nvm use --lts
-
-# Neovim (latest stable)
-wget https://github.com/neovim/neovim/releases/download/v0.11.2/nvim-linux-arm64.tar.gz
-sudo tar -C /opt -xzf nvim-linux64.tar.gz
-sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/
-```
-
-#### Package Managers & Tools
-
-```bash
-# Bun (JavaScript runtime and package manager)
-curl -fsSL https://bun.sh/install | bash
-
-# pnpm (Fast, disk space efficient package manager)
-curl -fsSL https://get.pnpm.io/install.sh | sh
-
-# Homebrew on Linux (for additional tools)
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Ripgrep (fast text search - required for Telescope)
-sudo apt install ripgrep
-# OR via Homebrew: brew install ripgrep
-
-# LazyGit (Git TUI - optional but recommended)
-brew install lazygit
-# OR: sudo apt install lazygit
-```
-
-#### Development Tools
-
-```bash
-# Tmux
-sudo apt install tmux
-
-# Build essentials for compiling tools
-sudo apt install build-essential
-
-# For C/C++ development (optional)
-sudo apt install clang-format
-
-# For Python development (optional)
-sudo apt install python3-pip
-pip3 install black isort flake8
-```
-
-## 🚀 Installation
-
-### Quick Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+```sh
+git clone <this repo> ~/dotfiles   # or just use it in place
 cd ~/dotfiles
-
-# Backup existing configurations (recommended)
-mkdir -p ~/dotfiles-backup
-cp ~/.bashrc ~/dotfiles-backup/ 2>/dev/null || true
-cp ~/.tmux.conf ~/dotfiles-backup/ 2>/dev/null || true
-cp -r ~/.config/nvim ~/dotfiles-backup/ 2>/dev/null || true
-cp -r ~/.config/Code/User ~/dotfiles-backup/vscode-user 2>/dev/null || true
-
-# Create symbolic links
-ln -sf ~/dotfiles/.bashrc ~/.bashrc
-ln -sf ~/dotfiles/.tmux.conf ~/.tmux.conf
-ln -sf ~/dotfiles/nvim ~/.config/nvim
-
-# VS Code settings (choose your installation path)
-# For VS Code:
-ln -sf ~/dotfiles/vscode/settings.json ~/.config/Code/User/settings.json
-ln -sf ~/dotfiles/vscode/keybindings.json ~/.config/Code/User/keybindings.json
-# For VS Code Insiders:
-# ln -sf ~/dotfiles/vscode/settings.json ~/.config/Code\ -\ Insiders/User/settings.json
-# ln -sf ~/dotfiles/vscode/keybindings.json ~/.config/Code\ -\ Insiders/User/keybindings.json
-
-# Source the new bash configuration
-source ~/.bashrc
+./setup.sh          # one-shot: installs everything, then symlinks the configs
 ```
 
-### Manual Installation
-
-If you prefer to review and selectively apply configurations:
-
-1. **Bash Configuration**:
-
-    ```bash
-    cp .bashrc ~/.bashrc
-    source ~/.bashrc
-    ```
-
-2. **Tmux Configuration**:
-
-    ```bash
-    cp .tmux.conf ~/.tmux.conf
-    # Restart tmux or source: tmux source-file ~/.tmux.conf
-    ```
-
-3. **Neovim Configuration**:
-
-    ```bash
-    mkdir -p ~/.config
-    cp -r nvim ~/.config/
-    # Neovim will automatically install plugins on first launch
-    ```
-
-4. **VS Code Configuration**:
-
-    ```bash
-    # Create VS Code User directory if it doesn't exist
-    mkdir -p ~/.config/Code/User
-
-    # Copy settings and keybindings
-    cp vscode/settings.json ~/.config/Code/User/
-    cp vscode/keybindings.json ~/.config/Code/User/
-
-    # For VS Code Insiders, use:
-    # mkdir -p ~/.config/Code\ -\ Insiders/User
-    # cp vscode/settings.json ~/.config/Code\ -\ Insiders/User/
-    # cp vscode/keybindings.json ~/.config/Code\ -\ Insiders/User/
-    ```
-
-## 📁 Configuration Details
-
-### Bash Configuration (`.bashrc`)
-
-**Key Features**:
-
--   **Development Aliases**: Quick shortcuts for common development tasks
-    -   `lg` → `lazygit` (Git TUI)
-    -   `cl` → `clear` (Clear terminal)
-    -   `nvc` → `cd ~/.config/nvim/` (Quick access to Neovim config)
--   **Tool Integration**: Automatic setup for modern development tools
-    -   NVM (Node Version Manager)
-    -   Bun (JavaScript runtime)
-    -   pnpm (Package manager)
-    -   Homebrew on Linux
--   **Enhanced Terminal**: Colored output, improved history, and intelligent completion
-
-### Tmux Configuration (`.tmux.conf`)
-
-**Key Features**:
-
--   **Mouse Support**: Click to switch panes and resize windows
--   **Intuitive Keybindings**:
-    -   `|` for horizontal split
-    -   `-` for vertical split
-    -   `Ctrl + Arrow Keys` for pane navigation
-    -   `Prefix + r` to reload configuration
--   **Visual Enhancements**:
-    -   Session info in status bar
-    -   Date/time display
-    -   Window numbering starting from 1
--   **Productivity**:
-    -   Large history buffer (10,000 lines)
-    -   Automatic window renumbering
-
-### Neovim Configuration (`nvim/`)
-
-**Architecture**: Based on Kickstart.nvim with custom extensions
-
-**Core Features**:
-
--   **Modern Plugin Management**: Lazy.nvim for fast startup and efficient loading
--   **LSP Integration**: Full Language Server Protocol support with Mason for automatic installation
--   **Smart Autocompletion**: Blink.cmp with snippet support via LuaSnip
--   **Advanced Search**: Telescope.nvim with fuzzy finding and live grep
--   **Git Integration**: Gitsigns for diff visualization and git operations
--   **Syntax Highlighting**: Treesitter for accurate code parsing
-
-**Custom Plugins** (`nvim/lua/custom/plugins/`):
-
--   **Conform.nvim**: Advanced code formatting with project-aware Prettier configuration
-    -   Automatic format-on-save
-    -   Support for JavaScript, TypeScript, React, JSON, HTML, CSS, SCSS, Markdown, YAML
-    -   Smart config detection (project-level → global fallback)
-
-**Available Kickstart Plugins** (`nvim/lua/kickstart/plugins/`):
-
--   Debug support (DAP) for debugging workflows
--   Autopairs for bracket/quote completion
--   Enhanced Git signs and operations
--   Indentation guides
--   Linting support
--   Neo-tree file explorer
-
-**Key Mappings**:
-
--   `<Space>` → Leader key
--   `<Leader>f` → Format current buffer
--   `<Leader>sf` → Search files (Telescope)
--   `<Leader>sg` → Live grep (Telescope)
--   `<Leader>pv` → Open file explorer (Netrw)
--   `<C-h/j/k/l>` → Navigate between splits
-
-### VS Code Configuration (`vscode/`)
-
-**Key Features**:
-
--   **Editor Settings**: Optimized for development productivity
-    -   Tab size: 4 spaces with smart indentation
-    -   Format on save with automatic import organization
-    -   Prettier as default formatter
-    -   Intelligent cursor positioning with surrounding lines
--   **File Management**: Enhanced file handling and exclusions
-    -   Smart exclusion of common build/cache directories
-    -   Hidden system files (.git, .DS_Store, node_modules, dist, build, .next, .nuxt)
--   **Custom Keybindings**: Productivity-focused shortcuts
-    -   `Ctrl+M` → Next editor tab
-    -   `Ctrl+N` → Previous editor tab
-    -   `Shift+Ctrl+I` → Focus outline
-    -   `Ctrl+Shift+]` → Peek definition
--   **Development Tools**: Integrated development experience
-    -   Inline suggestions enabled
-    -   Code actions on save (fix all, organize imports)
-    -   Enhanced word handling and navigation
-
-**Files**:
-
--   `settings.json` → User settings with development optimizations
--   `keybindings.json` → Custom key bindings for improved workflow
-
-## 🔧 Customization
-
-### Adding New Bash Aliases
-
-Edit `.bashrc` and add your aliases in the custom aliases section:
-
-```bash
-#custom aliases
-alias your_alias='your_command'
-```
-
-### Extending Neovim
-
-1. **Add new plugins**: Create files in `nvim/lua/custom/plugins/`
-2. **Modify existing config**: Edit the respective files in the plugin directories
-3. **LSP servers**: Modify the `servers` table in `nvim/init.lua`
-
-### Tmux Customization
-
-Modify `.tmux.conf` and reload with `tmux source-file ~/.tmux.conf`
-
-### VS Code Customization
-
-1. **Settings**: Edit `vscode/settings.json` to modify editor behavior, formatting rules, and file exclusions
-2. **Keybindings**: Edit `vscode/keybindings.json` to add or modify keyboard shortcuts
-3. **Extensions**: The settings include configurations that work well with popular extensions like Prettier, ESLint, and GitLens
-
-## 🎨 Theming
-
--   **Neovim**: Currently using Tokyo Night theme (can be changed in `nvim/init.lua`)
--   **VS Code**: Inherits from your VS Code theme settings (not included in these configs)
--   **Terminal**: Inherits from your terminal emulator's color scheme
--   **Tmux**: Minimal status bar with green and yellow accents
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-1. **Neovim plugins not loading**:
-
-    ```bash
-    nvim --headless "+Lazy! sync" +qa
-    ```
-
-2. **LSP not working**:
-
-    ```bash
-    # In Neovim
-    :checkhealth
-    :Mason  # Install missing language servers
-    ```
-
-3. **Tmux key bindings not working**:
-
-    ```bash
-    tmux kill-server  # Restart tmux completely
-    ```
-
-4. **Node.js tools not found**:
-
-    ```bash
-    # Reinstall NVM and Node.js
-    source ~/.bashrc
-    nvm install --lts
-    ```
-
-### Health Checks
-
-```bash
-# Neovim health check
-nvim -c ":checkhealth" -c ":qa"
-
-# Check installed tools
-which nvim tmux git make unzip rg
-node --version
-npm --version
-```
-
-## 📚 Learning Resources
-
--   **Neovim**: `:help` within Neovim, [Learn Vimscript the Hard Way](https://learnvimscriptthehardway.stevelosh.com/)
--   **Kick start guide**: [Neovim Kickstart](https://github.com/nvim-lua/kickstart.nvim)
--   **Tmux**: `man tmux`, [Tmux Cheat Sheet](https://tmuxcheatsheet.com/)
--   **Lua**: [Programming in Lua](https://www.lua.org/pil/), [Lua User Wiki](http://lua-users.org/wiki/)
--   **Git**: [Pro Git Book](https://git-scm.com/book)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Test your changes thoroughly
-4. Submit a pull request with detailed description
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-**Note**: These configurations are optimized for development workflows involving JavaScript/TypeScript, web development, and general programming. Adjust the LSP servers and formatters in the Neovim configuration based on your specific development needs.
+`setup.sh` is the single entry point — it runs `dependencies.sh` (apt packages, rustup, pyenv, fnm, go,
+nvim, tmux, yazi, lazygit, starship, a Nerd Font) and then `install.sh` (symlinks configs into `~/.config`
+and sets fish as your login shell). Run a phase on its own with `./setup.sh --deps` or `./setup.sh --link`.
+
+After that:
+1. Log out/in (or reboot) so the default shell change takes effect.
+2. Open your terminal's settings and set the font to **JetBrainsMono Nerd Font** (needed for the icons used by `lsd` and `starship`).
+3. Open `nvim` once — `lazy.nvim` bootstraps itself and Mason installs the LSPs/formatters on first launch.
+
+Everything is idempotent — safe to re-run.
+
+## What's in here
+
+| File / dir | Purpose |
+| --- | --- |
+| `setup.sh` | One-shot entry point: runs `dependencies.sh` then `install.sh` |
+| `dependencies.sh` | Installs all CLI tools and language toolchains |
+| `install.sh` | Symlinks configs into `~/.config` (and `~/.tmux.conf`), sets fish as login shell |
+| `config.fish` | Aliases, PATH, prompt/tool init (starship, zoxide, fnm, pyenv) |
+| `starship.toml` | Minimal prompt: time, dir, git, command duration |
+| `gitconfig` | `delta` pager/diff, rebase-on-pull, nvim as editor |
+| `tmux.conf` | Mouse on, 1-based numbering, `\|`/`-` splits (current path), Ctrl+arrows to switch panes |
+| `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, neogit + diffview, yazi.nvim, conform.nvim formatting |
+
+## tmux quick reference
+
+The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) is deliberately minimal and keeps the
+default **prefix `Ctrl + b`**. Mouse mode is on, so most pane/window selection and resizing can be done by
+click and drag.
+
+### CLI / fish abbreviations (from `config.fish`, in **bold**)
+
+| Command | Abbrev | Purpose |
+| --- | --- | --- |
+| `tmux` | **`tm`** | Start a new session |
+| `tmux attach` | **`tma`** | Attach to the last session (`-t <name>` targets one) |
+| `tmux list-sessions` | **`tml`** | List active sessions |
+| `tn` | — | fish function: attach to / create a session named after the current dir |
+| `tmux new -s <name>` | — | Start a new **named** session |
+| `tmux kill-session -t <name>` / `kill-server` | — | Kill one / all sessions |
+
+### Keybindings
+
+Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings from `tmux.conf`:
+
+| Keybinding | Action |
+| --- | --- |
+| `prefix` then `\|` | Split pane horizontally (new pane in the current path) |
+| `prefix` then `-` | Split pane vertically (new pane in the current path) |
+| `prefix` then `r` | Reload `~/.tmux.conf` |
+| `Ctrl + ←/→/↑/↓` | Switch panes (no prefix needed) |
+| `prefix` then `c` / `,` / `&` | New window / rename window / kill window *(tmux defaults)* |
+| `prefix` then `d` | Detach (session keeps running) |
+| `prefix` then `[` | Enter copy/scroll mode (`q` exits) |
+
+Windows and panes are **1-indexed** and windows renumber automatically when one is closed.
+
+## Git in Neovim (Neogit)
+
+Three complementary tools, plus `lazygit` as a standalone TUI:
+
+- **gitsigns** — inline hunk signs, stage/reset/preview a single hunk (`<leader>h*`, see `gitsigns.lua`).
+- **Neogit** — a Magit-style full Git UI (status, stage, commit, branch, push/pull, log).
+- **diffview** — side-by-side diffs, file history, and the 3-way view for resolving merge conflicts.
+
+### Keybindings (leader = `Space`)
+
+| Keybinding | Action |
+| --- | --- |
+| `<leader>gg` | Open Neogit status (the main hub) |
+| `<leader>gc` | Commit popup |
+| `<leader>gl` | Commit log |
+| `<leader>gp` / `<leader>gP` | Pull / push |
+| `<leader>gd` | Diff view of the working tree |
+| `<leader>gm` | Open the merge-conflict resolution view |
+| `<leader>gh` | File history of the current file |
+| `<leader>gx` | Close the diff view |
+
+### Inside the Neogit status buffer
+
+| Key | Action |
+| --- | --- |
+| `s` / `u` | Stage / unstage the item under the cursor |
+| `S` / `U` | Stage / unstage everything |
+| `<Tab>` | Toggle the inline diff for an item |
+| `c c` | Commit (opens message buffer; save+close with `:wq` to confirm) |
+| `p` / `P` | Pull / push popup |
+| `b` | Branch popup (checkout / create) |
+| `l l` | Log popup |
+| `<CR>` | Jump to the file under the cursor |
+| `?` | Built-in help (lists every key) · `q` closes the buffer |
+
+### Resolving a merge conflict
+
+When a `git merge`/`rebase`/`pull` stops with conflicts:
+
+1. Open the resolution view: **`<leader>gm`** (`:DiffviewOpen`). The file panel (top-left) lists every
+   conflicted file; selecting one shows a 3-way layout — **OURS** (your branch) on the left,
+   **THEIRS** (incoming) on the right, and the working result in the center.
+2. Jump between conflict regions with **`]x`** / **`[x`**.
+3. For each region, choose a side (these are diffview's defaults, applied to the region under the cursor):
+
+   | Key | Takes |
+   | --- | --- |
+   | `<leader>co` | **O**urs |
+   | `<leader>ct` | **T**heirs |
+   | `<leader>cb` | **B**ase (common ancestor) |
+   | `<leader>ca` | **A**ll (keep both, in order) |
+   | `dx` | Delete the region (keep neither) |
+
+   To take one side for the **whole file** at once, use the uppercase variants in the file panel:
+   `<leader>cO` / `<leader>cT` / `<leader>cB` / `<leader>cA`.
+4. Save the file (`:w`). Once a file has no remaining conflict markers, stage it — press `s` on it in the
+   diffview file panel (or in Neogit's status buffer).
+5. Repeat for every file in the panel, then close the view with **`<leader>gx`**.
+6. Finish the operation back in Neogit (`<leader>gg`): for a merge, commit with `c c`; for a rebase,
+   open the rebase popup with `r` and choose **continue**. Need to bail out entirely? `r` → **abort**
+   (or `:Neogit` → the relevant abort action) runs `git merge/rebase --abort`.
+
+> Prefer the terminal? `lazygit` resolves conflicts too, and `git mergetool` will launch your
+> `$EDITOR` (Neovim). The Neogit/diffview flow above is the in-editor path and is usually fastest.
+
+## Notable deviations from the reference repo
+
+- **No terminal-emulator configs** (no `alacritty.yml`/`ghostty.config`/`wezterm.lua`) — you're using the system default terminal, so there's nothing to configure there beyond the font.
+- **tmux instead of zellij** — the multiplexer config comes from [iamsg97/dotfiles](https://github.com/iamsg97/dotfiles) (`.tmux.conf`/`.tmux.config`) and installs from apt. Its fish shortcuts are `tm` (run), `tma` (attach), `tml` (list sessions), plus the `tn` function (attach to/create a session named after the cwd).
+- **Dropped macOS/author-specific bits**: Homebrew/OrbStack, `opam`, the `cloudtoken` sourcing, the Wireshark.app alias, and the `dog` alias (DNS lookup tool we didn't install).
+- **Trimmed the curated CLI tool list**: kept `bat`, `lsd`, `ripgrep`, `fd`, `fzf`, `zoxide`, `git-delta`, `lazygit`, `dua-cli`, `hyperfine`, `git-cliff`. Skipped the more author-specific niche tools (`jwt-ui`, `jless`, `envio`, `gitlogue`, `ducker`, `flamelens`, `csvlens`, `git-interactive-rebase-tool`).
+- **Neovim is downloaded directly from GitHub releases** into `/opt/nvim` rather than installed via apt (Ubuntu's packaged version is too old for current plugins) or built from source (unnecessary on Linux — prebuilt binaries exist).
+- **LSPs are split between Mason and system toolchains**: `rust-analyzer` comes from `rustup component add`, `gopls` from `go install`, everything else (`pyright`, `ruff`, `ts_ls`, `jdtls`, `lua_ls`, `bashls`, `jsonls`, `yamlls`) is managed by `mason.nvim` so it stays self-contained inside Neovim's data dir.
+- **`gitconfig` is actually symlinked** by `install.sh` — the reference repo's `install.sh` never linked its own `gitconfig`.
+
+## Languages / toolchains installed
+
+- **Python**: `pyenv` (3.12.0 global) + `pipx`, `poetry`, `uv`, `ruff`
+- **Rust**: `rustup` stable toolchain + `rust-analyzer` component
+- **Go**: `golang-go` (apt) + `gopls`
+- **Node/TypeScript**: `fnm` (latest LTS) + `ts_ls` via Mason
+- **Java**: `openjdk-21-jdk` (apt) + `jdtls` via Mason
