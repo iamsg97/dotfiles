@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Personal dotfiles for **Pop!_OS / Ubuntu 24.04** with **fish** as the login shell. Adapted from
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) for apt (not Homebrew), the system terminal, and a
 from-scratch Neovim config. `README.md` is the authoritative, detailed reference — especially for the
-tmux and Neovim/Neogit keybindings. Update it when behavior changes.
+tmux and Neovim git (lazygit/diffview) keybindings. Update it when behavior changes.
 
 ## The scripts (the core workflow)
 
@@ -29,7 +29,8 @@ changes (must re-run) and the login-shell change (needs a re-login).
 
 `nvim/` → `~/.config/nvim` · `config.fish` → `~/.config/fish/config.fish` ·
 `starship.toml` → `~/.config/starship/starship.toml` · `tmux.conf` → `~/.tmux.conf` ·
-`gitconfig` → `~/.gitconfig`. If you add a new config file, wire up its symlink here or it won't be installed.
+`gitconfig` → `~/.gitconfig` · `yazi/yazi.toml` → `~/.config/yazi/yazi.toml`. If you add a new config file,
+wire up its symlink here or it won't be installed.
 
 ## Neovim config architecture
 
@@ -45,8 +46,8 @@ table). To add/change a plugin, add or edit a single file there — no central r
 - **Formatting** is `conform.nvim` (`plugins/conform.lua`), format-on-save with `lsp_fallback`. Formatters:
   stylua (lua), ruff_format (python), gofumpt+goimports (go), prettier (js/ts/json/yaml/markdown),
   fish_indent (fish).
-- Other pieces: blink.cmp (completion), nvim-treesitter (main branch), fzf-lua, gitsigns, neogit + diffview,
-  yazi.nvim, which-key, lualine.
+- Other pieces: blink.cmp (completion), nvim-treesitter (main branch), fzf-lua, gitsigns, lazygit.nvim +
+  diffview, yazi.nvim, which-key, lualine.
 
 ## Lua formatting
 
