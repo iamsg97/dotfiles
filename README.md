@@ -39,7 +39,8 @@ Everything is idempotent — safe to re-run.
 | `starship.toml` | Minimal prompt: time, dir, git, command duration |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, nvim as editor |
 | `tmux.conf` | Mouse on, 1-based numbering, `\|`/`-` splits (current path), Ctrl+arrows to switch panes |
-| `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, neogit + diffview, yazi.nvim, conform.nvim formatting |
+| `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, lazygit.nvim + diffview, yazi.nvim, conform.nvim formatting |
+| `yazi/yazi.toml` | Yazi file manager config: shows hidden files/dirs by default |
 
 ## tmux quick reference
 
@@ -74,40 +75,25 @@ Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings 
 
 Windows and panes are **1-indexed** and windows renumber automatically when one is closed.
 
-## Git in Neovim (Neogit)
+## Git in Neovim (lazygit)
 
-Three complementary tools, plus `lazygit` as a standalone TUI:
+Two complementary tools:
 
 - **gitsigns** — inline hunk signs, stage/reset/preview a single hunk (`<leader>h*`, see `gitsigns.lua`).
-- **Neogit** — a Magit-style full Git UI (status, stage, commit, branch, push/pull, log).
+- **lazygit.nvim** — opens the `lazygit` TUI (status, stage, commit, branch, push/pull, log) in a floating
+  terminal inside Neovim, via `plugins/lazygit.lua`. It's the same `lazygit` binary as the shell's `lg`
+  alias, so keybindings inside it are the standard lazygit ones (`?` for help, `q` to quit).
 - **diffview** — side-by-side diffs, file history, and the 3-way view for resolving merge conflicts.
 
 ### Keybindings (leader = `Space`)
 
 | Keybinding | Action |
 | --- | --- |
-| `<leader>gg` | Open Neogit status (the main hub) |
-| `<leader>gc` | Commit popup |
-| `<leader>gl` | Commit log |
-| `<leader>gp` / `<leader>gP` | Pull / push |
+| `<leader>gg` | Open LazyGit (floating terminal) |
 | `<leader>gd` | Diff view of the working tree |
 | `<leader>gm` | Open the merge-conflict resolution view |
 | `<leader>gh` | File history of the current file |
 | `<leader>gx` | Close the diff view |
-
-### Inside the Neogit status buffer
-
-| Key | Action |
-| --- | --- |
-| `s` / `u` | Stage / unstage the item under the cursor |
-| `S` / `U` | Stage / unstage everything |
-| `<Tab>` | Toggle the inline diff for an item |
-| `c c` | Commit (opens message buffer; save+close with `:wq` to confirm) |
-| `p` / `P` | Pull / push popup |
-| `b` | Branch popup (checkout / create) |
-| `l l` | Log popup |
-| `<CR>` | Jump to the file under the cursor |
-| `?` | Built-in help (lists every key) · `q` closes the buffer |
 
 ### Resolving a merge conflict
 
@@ -129,15 +115,14 @@ When a `git merge`/`rebase`/`pull` stops with conflicts:
 
    To take one side for the **whole file** at once, use the uppercase variants in the file panel:
    `<leader>cO` / `<leader>cT` / `<leader>cB` / `<leader>cA`.
-4. Save the file (`:w`). Once a file has no remaining conflict markers, stage it — press `s` on it in the
-   diffview file panel (or in Neogit's status buffer).
+4. Save the file (`:w`). Once a file has no remaining conflict markers, stage it from lazygit
+   (**`<leader>gg`**, then `a` to stage the file or `space` to toggle staging).
 5. Repeat for every file in the panel, then close the view with **`<leader>gx`**.
-6. Finish the operation back in Neogit (`<leader>gg`): for a merge, commit with `c c`; for a rebase,
-   open the rebase popup with `r` and choose **continue**. Need to bail out entirely? `r` → **abort**
-   (or `:Neogit` → the relevant abort action) runs `git merge/rebase --abort`.
+6. Finish the operation from LazyGit (`<leader>gg`): commit with `c`, or for a rebase, continue/abort from
+   its rebase menu (`m`).
 
-> Prefer the terminal? `lazygit` resolves conflicts too, and `git mergetool` will launch your
-> `$EDITOR` (Neovim). The Neogit/diffview flow above is the in-editor path and is usually fastest.
+> `git mergetool` also launches your `$EDITOR` (Neovim) directly on a conflicted file, if you'd rather
+> skip the TUI entirely.
 
 ## Notable deviations from the reference repo
 
