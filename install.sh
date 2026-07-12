@@ -34,6 +34,9 @@ echo "gitconfig installed"
 link "$DOTFILES/yazi/yazi.toml" ~/.config/yazi/yazi.toml
 echo "yazi config installed"
 
+link "$DOTFILES/ghostty/config" ~/.config/ghostty/config
+echo "ghostty config installed"
+
 if command -v fish >/dev/null && [[ "${SHELL:-}" != "$(command -v fish)" ]]; then
     echo "Setting fish as your default login shell (you may be asked for your password)..."
     chsh -s "$(command -v fish)"

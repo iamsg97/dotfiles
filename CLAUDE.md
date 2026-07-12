@@ -29,8 +29,9 @@ changes (must re-run) and the login-shell change (needs a re-login).
 
 `nvim/` → `~/.config/nvim` · `config.fish` → `~/.config/fish/config.fish` ·
 `starship.toml` → `~/.config/starship/starship.toml` · `tmux.conf` → `~/.tmux.conf` ·
-`gitconfig` → `~/.gitconfig` · `yazi/yazi.toml` → `~/.config/yazi/yazi.toml`. If you add a new config file,
-wire up its symlink here or it won't be installed.
+`gitconfig` → `~/.gitconfig` · `yazi/yazi.toml` → `~/.config/yazi/yazi.toml` ·
+`ghostty/config` → `~/.config/ghostty/config`. If you add a new config file, wire up its symlink here or it
+won't be installed.
 
 ## Neovim config architecture
 
