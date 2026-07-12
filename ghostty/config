@@ -1,0 +1,36 @@
+theme = Everforest Dark Hard
+shell-integration = fish
+command = /usr/bin/fish --login
+
+window-decoration = true
+window-width = 200
+window-height = 48
+window-padding-x = 2
+window-padding-y = 2
+
+# Custom Tab & Split Bindings (Overriding to use Ctrl)
+keybind = ctrl+t=new_tab
+keybind = super+shift+r=new_split:right
+keybind = super+shift+d=new_split:down
+
+# Clipboard & Window Navigation
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+keybind = super+n=new_window
+keybind = super+w=close_window
+keybind = super+q=quit
+
+# Tab Navigation
+keybind = super+shift+]=next_tab
+keybind = super+shift+[=previous_tab
+keybind = super+1=goto_tab:1
+keybind = super+2=goto_tab:2
+keybind = super+3=goto_tab:3
+keybind = super+4=goto_tab:4
+keybind = super+5=goto_tab:5
+
+# Split Pane Navigation
+keybind = super+alt+up=goto_split:up
+keybind = super+alt+down=goto_split:down
+keybind = super+alt+left=goto_split:left
+keybind = super+alt+right=goto_split:right

@@ -38,15 +38,18 @@ Everything is idempotent — safe to re-run.
 | `config.fish` | Aliases, PATH, prompt/tool init (starship, zoxide, fnm, pyenv) |
 | `starship.toml` | Minimal prompt: time, dir, git, command duration |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, nvim as editor |
-| `tmux.conf` | Mouse on, 1-based numbering, `\|`/`-` splits (current path), Ctrl+arrows to switch panes |
+| `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
 | `nvim/` | LSP (mason), completion (blink.cmp), treesitter, fzf-lua, gitsigns, lazygit.nvim + diffview, yazi.nvim, conform.nvim formatting |
 | `yazi/yazi.toml` | Yazi file manager config: shows hidden files/dirs by default |
+| `ghostty/config` | Ghostty terminal config: `Everforest Dark Hard` theme, fish shell integration |
 
 ## tmux quick reference
 
-The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) is deliberately minimal and keeps the
-default **prefix `Ctrl + b`**. Mouse mode is on, so most pane/window selection and resizing can be done by
-click and drag.
+The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) keeps the default **prefix `Ctrl + b`**
+and is tuned for responsiveness and quick keyboard navigation: a 10ms escape-time (tmux's 500ms default
+makes Neovim's `<Esc>` feel laggy), `tmux-256color` + RGB `terminal-overrides` for true color so the `edge`
+colorscheme renders correctly, `focus-events` and `aggressive-resize` on, and vi-style copy mode. Mouse mode
+is also on, so pane/window selection and resizing can be done by click and drag too.
 
 ### CLI / fish abbreviations (from `config.fish`, in **bold**)
 
@@ -65,13 +68,16 @@ Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings 
 
 | Keybinding | Action |
 | --- | --- |
-| `prefix` then `\|` | Split pane horizontally (new pane in the current path) |
-| `prefix` then `-` | Split pane vertically (new pane in the current path) |
-| `prefix` then `r` | Reload `~/.tmux.conf` |
+| `prefix` then `\|` | Split pane **vertically** — side by side (new pane in the current path) |
+| `prefix` then `-` | Split pane **horizontally** — stacked (new pane in the current path) |
 | `Ctrl + ←/→/↑/↓` | Switch panes (no prefix needed) |
+| `prefix` then `h`/`j`/`k`/`l` | Switch panes, vi-style (repeatable — hold prefix once, tap the letter again) |
+| `prefix` then `H`/`J`/`K`/`L` | Resize the active pane in that direction (repeatable, 5 cells per tap) |
+| `Alt + ←/→` | Previous / next window (no prefix needed) |
+| `prefix` then `r` | Reload `~/.tmux.conf` |
 | `prefix` then `c` / `,` / `&` | New window / rename window / kill window *(tmux defaults)* |
 | `prefix` then `d` | Detach (session keeps running) |
-| `prefix` then `[` | Enter copy/scroll mode (`q` exits) |
+| `prefix` then `[` | Enter copy mode (vi keys: `v` to select, `y` to copy, `q` to quit) |
 
 Windows and panes are **1-indexed** and windows renumber automatically when one is closed.
 
@@ -126,7 +132,7 @@ When a `git merge`/`rebase`/`pull` stops with conflicts:
 
 ## Notable deviations from the reference repo
 
-- **No terminal-emulator configs** (no `alacritty.yml`/`ghostty.config`/`wezterm.lua`) — you're using the system default terminal, so there's nothing to configure there beyond the font.
+- **Ghostty is the only terminal-emulator config tracked** (`ghostty/config`, symlinked to `~/.config/ghostty/config`) — theme is `Everforest Dark Hard` (dark, low-contrast, pairs with nvim's `edge` colorscheme). No `alacritty.yml`/`wezterm.lua`.
 - **tmux instead of zellij** — the multiplexer config comes from [iamsg97/dotfiles](https://github.com/iamsg97/dotfiles) (`.tmux.conf`/`.tmux.config`) and installs from apt. Its fish shortcuts are `tm` (run), `tma` (attach), `tml` (list sessions), plus the `tn` function (attach to/create a session named after the cwd).
 - **Dropped macOS/author-specific bits**: Homebrew/OrbStack, `opam`, the `cloudtoken` sourcing, the Wireshark.app alias, and the `dog` alias (DNS lookup tool we didn't install).
 - **Trimmed the curated CLI tool list**: kept `bat`, `lsd`, `ripgrep`, `fd`, `fzf`, `zoxide`, `git-delta`, `lazygit`, `dua-cli`, `hyperfine`, `git-cliff`. Skipped the more author-specific niche tools (`jwt-ui`, `jless`, `envio`, `gitlogue`, `ducker`, `flamelens`, `csvlens`, `git-interactive-rebase-tool`).
