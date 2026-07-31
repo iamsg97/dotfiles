@@ -1,2 +1,9 @@
 [mgr]
 show_hidden = true
+
+# Yazi's built-in text opener is `${EDITOR:-vi} %s`, which makes "open a file" depend on whichever
+# shell launched yazi. On Fedora that bites: /etc/profile.d/nano-default-editor.sh exports
+# EDITOR=/usr/bin/nano into the session, so yazi opened nano from any shell that didn't override it.
+# Pin nvim instead — this repo is a Neovim setup, so there is no case where another editor is wanted.
+[opener]
+edit = [{ run = 'nvim "$@"', desc = "nvim", block = true, for = "unix" }]
