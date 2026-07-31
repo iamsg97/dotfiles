@@ -22,17 +22,27 @@ fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/.local/share/fnm"
 
-set -Ux EDITOR "nvim"
-set -Ux VISUAL "nvim"
-set -Ux JAVA_HOME "/usr/lib/jvm/java-21-openjdk-amd64"
+# -gx, not -Ux: Fedora ships /etc/profile.d/nano-default-editor.sh, which puts EDITOR in the session
+# environment. Fish imports inherited env vars as *global* variables, and a global shadows a universal
+# one — so `set -Ux EDITOR nvim` would silently lose to nano. A global assignment here always wins.
+set -gx EDITOR "nvim"
+set -gx VISUAL "nvim"
+
+# --- Java ---
+# Resolved from javac rather than hardcoded: the JDK path differs per distro
+# (Debian: /usr/lib/jvm/java-21-openjdk-amd64, Fedora: /usr/lib/jvm/java-25-openjdk).
+# Deliberately -gx, not -Ux, so it re-resolves after a JDK upgrade instead of going stale.
+if type -q javac
+    set -gx JAVA_HOME (path dirname (path dirname (path resolve (command -v javac))))
+end
 
 # --- Rust ---
 if test -d "$HOME/.cargo"
-    set -Ux RUSTUP_HOME "$HOME/.rustup"
+    set -gx RUSTUP_HOME "$HOME/.rustup"
 end
 
 # --- pyenv ---
-set -Ux PYENV_ROOT "$HOME/.pyenv"
+set -gx PYENV_ROOT "$HOME/.pyenv"
 fish_add_path "$PYENV_ROOT/bin"
 status is-interactive; and pyenv init - | source
 

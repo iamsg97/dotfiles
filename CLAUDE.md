@@ -4,19 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Personal dotfiles for **Pop!_OS / Ubuntu 24.04** with **fish** as the login shell. Adapted from
-[cetanu/dotfiles](https://github.com/cetanu/dotfiles) for apt (not Homebrew), the system terminal, and a
-from-scratch Neovim config. `README.md` is the authoritative, detailed reference — especially for the
-tmux and Neovim git (lazygit/diffview) keybindings. Update it when behavior changes.
+Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)** with **fish** as the login shell.
+Adapted from [cetanu/dotfiles](https://github.com/cetanu/dotfiles) for Linux package managers (not
+Homebrew), the system terminal, and a from-scratch Neovim config. `README.md` is the authoritative,
+detailed reference — especially for the tmux and Neovim git (lazygit/diffview) keybindings, and for the
+Fedora/Ubuntu package-name table. Update it when behavior changes.
 
 ## The scripts (the core workflow)
 
 - `./setup.sh` — the single entry point that replicates the whole setup: runs `dependencies.sh` then
   `install.sh`. `--deps` / `--link` run just one phase. Prefer editing the two underlying scripts; keep
   `setup.sh` a thin orchestrator.
-- `./dependencies.sh` — installs everything: apt packages (incl. **tmux**), rustup, pyenv, fnm, go, Neovim
-  (downloaded from GitHub releases into `/opt/nvim`, **not** apt), yazi, lazygit, starship, a Nerd Font, and
-  language toolchains. Idempotent.
+- `./dependencies.sh` — installs everything: distro packages (incl. **tmux**), rustup, pyenv, fnm, go,
+  Neovim, yazi, lazygit, starship, a Nerd Font, and language toolchains. Idempotent.
+  - **Distro family is detected at runtime** (`dnf` → `fedora`, `apt-get` → `debian`) into
+    `$DISTRO_FAMILY`. All package-name divergence lives in `install_system_packages()` — the one
+    privileged function. Everything after it installs into `$HOME`, so `--user-only` needs no sudo on
+    Fedora. `--system-only` runs just the privileged half (for machines where sudo is interactive).
+  - Neovim source differs by family: GitHub release tarball → `/opt/nvim` on debian, `dnf install neovim`
+    on fedora. When adding a package, add it to **both** branches or explain why not.
 - `./install.sh` — **symlinks** configs from this repo into `~/.config` (plus `~/.gitconfig` and
   `~/.tmux.conf`), then sets fish as the login shell. Idempotent; backs up any pre-existing non-symlink file
   to `<file>.bak.<timestamp>`.

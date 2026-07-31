@@ -1,10 +1,10 @@
 # dotfiles
 
-Personal dotfiles for Pop!_OS, built with reference to
+Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)**, built with reference to
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
-- **apt** instead of Homebrew (Pop!_OS/Ubuntu 24.04)
-- the **default system terminal** (COSMIC Terminal) instead of Ghostty/Alacritty/WezTerm
+- **apt or dnf** instead of Homebrew — `dependencies.sh` detects the distro family at runtime
+- the **default system terminal** (COSMIC Terminal / KDE Konsole) instead of Ghostty/Alacritty/WezTerm
 - **fish** as the default login shell, **starship** prompt, **tmux** multiplexer, **yazi** file manager
 - a from-scratch **Neovim** config (lazy.nvim) instead of the original author's personal modules
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
@@ -17,9 +17,17 @@ cd ~/dotfiles
 ./setup.sh          # one-shot: installs everything, then symlinks the configs
 ```
 
-`setup.sh` is the single entry point — it runs `dependencies.sh` (apt packages, rustup, pyenv, fnm, go,
+`setup.sh` is the single entry point — it runs `dependencies.sh` (distro packages, rustup, pyenv, fnm, go,
 nvim, tmux, yazi, lazygit, starship, a Nerd Font) and then `install.sh` (symlinks configs into `~/.config`
 and sets fish as your login shell). Run a phase on its own with `./setup.sh --deps` or `./setup.sh --link`.
+
+`dependencies.sh` can also be split into its privileged and unprivileged halves, which is handy on a
+machine where sudo has to be typed in by hand:
+
+```sh
+./dependencies.sh --system-only   # just the apt/dnf packages (needs sudo)
+./dependencies.sh --user-only     # rustup, pyenv, fnm, gopls, starship, tree-sitter, yazi, lazygit, font
+```
 
 After that:
 1. Log out/in (or reboot) so the default shell change takes effect.
@@ -136,14 +144,34 @@ When a `git merge`/`rebase`/`pull` stops with conflicts:
 - **tmux instead of zellij** — the multiplexer config comes from [iamsg97/dotfiles](https://github.com/iamsg97/dotfiles) (`.tmux.conf`/`.tmux.config`) and installs from apt. Its fish shortcuts are `tm` (run), `tma` (attach), `tml` (list sessions), plus the `tn` function (attach to/create a session named after the cwd).
 - **Dropped macOS/author-specific bits**: Homebrew/OrbStack, `opam`, the `cloudtoken` sourcing, the Wireshark.app alias, and the `dog` alias (DNS lookup tool we didn't install).
 - **Trimmed the curated CLI tool list**: kept `bat`, `lsd`, `ripgrep`, `fd`, `fzf`, `zoxide`, `git-delta`, `lazygit`, `dua-cli`, `hyperfine`, `git-cliff`. Skipped the more author-specific niche tools (`jwt-ui`, `jless`, `envio`, `gitlogue`, `ducker`, `flamelens`, `csvlens`, `git-interactive-rebase-tool`).
-- **Neovim is downloaded directly from GitHub releases** into `/opt/nvim` rather than installed via apt (Ubuntu's packaged version is too old for current plugins) or built from source (unnecessary on Linux — prebuilt binaries exist).
+- **Neovim comes from a different source per distro**: on Ubuntu it's downloaded from GitHub releases into `/opt/nvim` (apt's packaged version is too old for current plugins); on Fedora it's just `dnf install neovim`, whose packaged version tracks upstream closely enough.
 - **LSPs are split between Mason and system toolchains**: `rust-analyzer` comes from `rustup component add`, `gopls` from `go install`, everything else (`pyright`, `ruff`, `ts_ls`, `jdtls`, `lua_ls`, `bashls`, `jsonls`, `yamlls`) is managed by `mason.nvim` so it stays self-contained inside Neovim's data dir.
 - **`gitconfig` is actually symlinked** by `install.sh` — the reference repo's `install.sh` never linked its own `gitconfig`.
 
+## Fedora vs. Ubuntu package differences
+
+`dependencies.sh` handles these automatically; they're listed here because they're the non-obvious part
+of the dnf branch.
+
+| Ubuntu (apt) | Fedora (dnf) | Note |
+| --- | --- | --- |
+| `build-essential` | `gcc gcc-c++ make patch` | no metapackage equivalent |
+| `bat`, `fd-find` | `bat`, `fd-find` | Fedora keeps the upstream binary names, so the `batcat`/`fdfind` shims into `~/.local/bin` are **apt-only** |
+| `p7zip-full` | `7zip` | p7zip was retired from Fedora |
+| `imagemagick` | `ImageMagick` | capitalisation |
+| `ffmpeg` | `ffmpeg-free` | the Fedora-repo build; avoids pulling in RPM Fusion |
+| `openjdk-21-jdk` | `java-25-openjdk-devel` | Fedora 44 has no JDK 21 |
+| `libssl-dev`, `zlib1g-dev`, … | `openssl-devel`, `zlib-devel`, … | pyenv build deps, per the pyenv wiki's Fedora list |
+| Neovim from GitHub releases | `neovim` from dnf | Fedora's package is current
+
 ## Languages / toolchains installed
 
-- **Python**: `pyenv` (3.12.0 global) + `pipx`, `poetry`, `uv`, `ruff`
+- **Python**: `pyenv` (latest 3.12.x as global) + `pipx`, `poetry`, `uv`, `ruff`. The version is resolved
+  at install time rather than hard-pinned — old patch releases stop building against current gcc/openssl.
+  Override with `PY_VERSION=3.12.4 ./dependencies.sh`.
 - **Rust**: `rustup` stable toolchain + `rust-analyzer` component
-- **Go**: `golang-go` (apt) + `gopls`
+- **Go**: `golang-go` (apt) / `golang` (dnf) + `gopls`
 - **Node/TypeScript**: `fnm` (latest LTS) + `ts_ls` via Mason
-- **Java**: `openjdk-21-jdk` (apt) + `jdtls` via Mason
+- **Java**: `openjdk-21-jdk` on apt, `java-25-openjdk-devel` on dnf (Fedora 44 no longer ships JDK 21) +
+  `jdtls` via Mason. `JAVA_HOME` is resolved from `javac` in `config.fish` instead of being hardcoded,
+  since the JDK path differs between the two distros.

@@ -37,9 +37,12 @@ echo "yazi config installed"
 link "$DOTFILES/ghostty/config" ~/.config/ghostty/config
 echo "ghostty config installed"
 
-if command -v fish >/dev/null && [[ "${SHELL:-}" != "$(command -v fish)" ]]; then
+if command -v fish >/dev/null && [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$(command -v fish)" ]]; then
     echo "Setting fish as your default login shell (you may be asked for your password)..."
-    chsh -s "$(command -v fish)"
+    # chsh needs a tty for the password prompt; don't let a non-interactive run abort the script.
+    if ! chsh -s "$(command -v fish)"; then
+        echo "  chsh failed (no tty?). Run this yourself: chsh -s $(command -v fish)" >&2
+    fi
 fi
 
 echo
