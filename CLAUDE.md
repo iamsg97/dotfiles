@@ -23,6 +23,11 @@ Fedora/Ubuntu package-name table. Update it when behavior changes.
     Fedora. `--system-only` runs just the privileged half (for machines where sudo is interactive).
   - Neovim source differs by family: GitHub release tarball → `/opt/nvim` on debian, `dnf install neovim`
     on fedora. When adding a package, add it to **both** branches or explain why not.
+  - **Never use a vendor's `curl | bash` installer without checking whether it edits shell rc files.**
+    `~/.config/fish/config.fish` is a symlink into this repo, so an installer that "helpfully" appends a
+    PATH export rewrites tracked source. pnpm and bun are installed from GitHub release assets via
+    `fetch_latest_asset` for exactly this reason; starship is passed `-b ~/.local/bin` so it doesn't
+    reach for `/usr/local/bin` (and thus sudo).
 - `./install.sh` — **symlinks** configs from this repo into `~/.config` (plus `~/.gitconfig` and
   `~/.tmux.conf`), then sets fish as the login shell. Idempotent; backs up any pre-existing non-symlink file
   to `<file>.bak.<timestamp>`.

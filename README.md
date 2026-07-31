@@ -171,7 +171,12 @@ of the dnf branch.
   Override with `PY_VERSION=3.12.4 ./dependencies.sh`.
 - **Rust**: `rustup` stable toolchain + `rust-analyzer` component
 - **Go**: `golang-go` (apt) / `golang` (dnf) + `gopls`
-- **Node/TypeScript**: `fnm` (latest LTS) + `ts_ls` via Mason
+- **Node/TypeScript**: `fnm` (latest LTS) + `ts_ls` via Mason, plus **pnpm** and **bun** (with `bunx`).
+  Both are installed from their GitHub release assets into `~/.local/bin` rather than via their official
+  `curl | bash` installers — those append PATH exports to whatever shell rc they detect, and
+  `~/.config/fish/config.fish` is a symlink into this repo, so they would rewrite a tracked file.
+  Installing them outside the fnm-managed Node also means they survive a `fnm use`.
+  `PNPM_HOME`/`BUN_INSTALL` are exported in `config.fish` so `pnpm add -g` / `bun add -g` land on PATH.
 - **Java**: `openjdk-21-jdk` on apt, `java-25-openjdk-devel` on dnf (Fedora 44 no longer ships JDK 21) +
   `jdtls` via Mason. `JAVA_HOME` is resolved from `javac` in `config.fish` instead of being hardcoded,
   since the JDK path differs between the two distros.

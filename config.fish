@@ -49,6 +49,14 @@ status is-interactive; and pyenv init - | source
 # --- fnm (Node) ---
 fnm env --use-on-cd --shell fish | source
 
+# --- pnpm / bun ---
+# The tools themselves live in ~/.local/bin (already on PATH); these are the directories their
+# *global* installs (`pnpm add -g`, `bun add -g`) drop binaries into.
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+fish_add_path "$PNPM_HOME"
+set -gx BUN_INSTALL "$HOME/.bun"
+fish_add_path "$BUN_INSTALL/bin"
+
 # --- Starship prompt ---
 set -x STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
 starship init fish | source

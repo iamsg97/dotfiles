@@ -145,6 +145,35 @@ eval "$(fnm env)"
 fnm install --lts
 echo "==> Node installed"
 
+# pnpm and bun are installed from their GitHub release assets rather than via the official
+# `curl | bash` installers on purpose: those installers append PATH exports to the shell rc files they
+# detect, and ~/.config/fish/config.fish is a symlink into this repo — they would rewrite a tracked
+# file. Installing them independently of the fnm-managed Node also means they survive a `fnm use`.
+echo "==> Installing pnpm"
+if ! command -v pnpm >/dev/null; then
+    # The tarball is a directory (the launcher plus dist/), not a lone binary, so it is extracted into
+    # PNPM_HOME and only the launcher is symlinked onto PATH.
+    fetch_latest_asset "pnpm/pnpm" 'pnpm-linux-x64\.tar\.gz"' /tmp/pnpm.tar.gz
+    mkdir -p "$HOME/.local/share/pnpm"
+    tar -xzf /tmp/pnpm.tar.gz -C "$HOME/.local/share/pnpm"
+    chmod +x "$HOME/.local/share/pnpm/pnpm"
+    ln -sf "$HOME/.local/share/pnpm/pnpm" "$HOME/.local/bin/pnpm"
+fi
+echo "==> pnpm $(pnpm --version)"
+
+echo "==> Installing bun"
+if ! command -v bun >/dev/null; then
+    # bun-linux-x64 requires AVX2; the -baseline asset is the fallback for older CPUs.
+    bun_asset='bun-linux-x64\.zip"'
+    grep -q avx2 /proc/cpuinfo || bun_asset='bun-linux-x64-baseline\.zip"'
+    fetch_latest_asset "oven-sh/bun" "$bun_asset" /tmp/bun.zip
+    rm -rf /tmp/bun-extract
+    unzip -oq /tmp/bun.zip -d /tmp/bun-extract
+    install -m 755 /tmp/bun-extract/*/bun "$HOME/.local/bin/bun"
+    ln -sf bun "$HOME/.local/bin/bunx"
+fi
+echo "==> bun $(bun --version)"
+
 echo "==> Installing gopls"
 go install golang.org/x/tools/gopls@latest
 echo "==> gopls installed"
