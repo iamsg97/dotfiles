@@ -1,6 +1,5 @@
 theme = Everforest Dark Hard
-shell-integration = fish
-command = /usr/bin/fish --login
+shell-integration = detect
 
 window-decoration = true
 window-width = 200

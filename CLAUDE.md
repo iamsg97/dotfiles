@@ -4,71 +4,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)** with **fish** as the login shell.
-Adapted from [cetanu/dotfiles](https://github.com/cetanu/dotfiles) for Linux package managers (not
-Homebrew), the system terminal, and a from-scratch Neovim config. `README.md` is the authoritative,
-detailed reference — especially for the tmux and Neovim git (lazygit/diffview) keybindings, and for the
-Fedora/Ubuntu package-name table. Update it when behavior changes.
+Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)**. Adapted from
+[cetanu/dotfiles](https://github.com/cetanu/dotfiles) for Linux package managers (not Homebrew) and the
+system terminal. Deliberately does **not** manage a shell, editor, or file manager (no fish, no Neovim, no
+yazi) — it installs CLI tools/toolchains and symlinks a handful of app configs. `README.md` is the
+authoritative, detailed reference — especially for the tmux keybindings and the Fedora/Ubuntu package-name
+table. Update it when behavior changes.
 
-## The scripts (the core workflow)
+## The script (the core workflow)
 
-- `./setup.sh` — the single entry point that replicates the whole setup: runs `dependencies.sh` then
-  `install.sh`. `--deps` / `--link` run just one phase. Prefer editing the two underlying scripts; keep
-  `setup.sh` a thin orchestrator.
-- `./dependencies.sh` — installs everything: distro packages (incl. **tmux**), rustup, pyenv, fnm, go,
-  Neovim, yazi, lazygit, starship, a Nerd Font, and language toolchains. Idempotent.
-  - **Distro family is detected at runtime** (`dnf` → `fedora`, `apt-get` → `debian`) into
-    `$DISTRO_FAMILY`. All package-name divergence lives in `install_system_packages()` — the one
-    privileged function. Everything after it installs into `$HOME`, so `--user-only` needs no sudo on
-    Fedora. `--system-only` runs just the privileged half (for machines where sudo is interactive).
-  - Neovim source differs by family: GitHub release tarball → `/opt/nvim` on debian, `dnf install neovim`
-    on fedora. When adding a package, add it to **both** branches or explain why not.
+- `./setup.sh` — the single entry point. Installs every CLI tool/toolchain, then symlinks configs into
+  place. `set -euo pipefail` bash, idempotent (safe to re-run after pulling repo changes).
+  - **Run as the normal user, never with sudo.** It refuses to run if `$EUID -eq 0`. It calls `sudo`
+    itself, only inside the one function that needs it (apt/dnf packages) — everything else installs
+    into `$HOME`, and running the whole script as root would put rustup/pyenv/fnm/cargo tools under
+    `/root` instead of the real user's home.
+  - **Distro family is detected at runtime** (`dnf` → `fedora`, `apt-get` → `debian`). All package-name
+    divergence lives in the `if [[ $DISTRO_FAMILY == debian ]]` block right after detection. When adding
+    a package, add it to **both** branches or explain why not.
   - **Never use a vendor's `curl | bash` installer without checking whether it edits shell rc files.**
-    `~/.config/fish/config.fish` is a symlink into this repo, so an installer that "helpfully" appends a
-    PATH export rewrites tracked source. pnpm and bun are installed from GitHub release assets via
-    `fetch_latest_asset` for exactly this reason; starship is passed `-b ~/.local/bin` so it doesn't
-    reach for `/usr/local/bin` (and thus sudo).
-- `./install.sh` — **symlinks** configs from this repo into `~/.config` (plus `~/.gitconfig` and
-  `~/.tmux.conf`), then sets fish as the login shell. Idempotent; backs up any pre-existing non-symlink file
-  to `<file>.bak.<timestamp>`.
+    This script itself appends one guarded block to `~/.bashrc` (rustup/pyenv/fnm/starship/zoxide init) —
+    don't let a vendor installer append a second, conflicting one. pnpm and bun are installed from GitHub
+    release assets via `fetch_latest_asset` for exactly this reason; starship is passed `-b ~/.local/bin`
+    so it doesn't reach for `/usr/local/bin` (and thus sudo).
+  - The `~/.bashrc` block is appended once, guarded by `# >>> dotfiles setup >>>` / `# <<< ... <<<`
+    markers — re-running the script must not duplicate it.
+  - Symlinking backs up any pre-existing non-symlink file to `<file>.bak.<timestamp>` before linking.
 
-Both are `set -euo pipefail` bash. Because `install.sh` symlinks (not copies), editing files in this repo
-takes effect immediately — no reinstall needed after config edits. The exceptions are `dependencies.sh`
-changes (must re-run) and the login-shell change (needs a re-login).
+Because it symlinks (not copies), editing a tracked config file takes effect immediately — no reinstall
+needed. Re-run `./setup.sh` after pulling changes that touch the tool-install steps; a shell restart (or
+`source ~/.bashrc`) picks up PATH/init changes.
 
-## Symlink map (defined in `install.sh`)
+## Symlink map (defined at the bottom of `setup.sh`)
 
-`nvim/` → `~/.config/nvim` · `config.fish` → `~/.config/fish/config.fish` ·
 `starship.toml` → `~/.config/starship/starship.toml` · `tmux.conf` → `~/.tmux.conf` ·
-`gitconfig` → `~/.gitconfig` · `yazi/yazi.toml` → `~/.config/yazi/yazi.toml` ·
-`ghostty/config` → `~/.config/ghostty/config`. If you add a new config file, wire up its symlink here or it
-won't be installed.
-
-## Neovim config architecture
-
-Entry point `nvim/init.lua` loads `core.options` + `core.keymaps`, bootstraps **lazy.nvim**, then imports the
-whole `nvim/lua/plugins/` directory. Each file in `plugins/` is one self-contained lazy.nvim spec (returns a
-table). To add/change a plugin, add or edit a single file there — no central registry to update.
-
-- **Plugin versions are pinned** in `nvim/lazy-lock.json` (tracked in git). Changing plugins means this
-  lockfile changes too; commit it.
-- **LSPs are split across two sources** (see `plugins/lsp.lua`, `plugins/mason-tools.lua`): `rust-analyzer`
-  comes from `rustup`, `gopls` from `go install`; everything else is managed by **mason.nvim**. LSP setup
-  uses `vim.lsp.enable` (not `mason-lspconfig` auto-setup).
-- **Formatting** is `conform.nvim` (`plugins/conform.lua`), format-on-save with `lsp_fallback`. Formatters:
-  stylua (lua), ruff_format (python), gofumpt+goimports (go), prettier (js/ts/json/yaml/markdown),
-  fish_indent (fish).
-- Other pieces: blink.cmp (completion), nvim-treesitter (main branch), fzf-lua, gitsigns, lazygit.nvim +
-  diffview, yazi.nvim, which-key, lualine.
-
-## Lua formatting
-
-Lua files use **stylua** with `nvim/stylua.toml`: 4-space indent, 120 col width, double quotes, always call
-parens. Match this style when editing Lua. `stylua nvim/` formats the tree if the binary is installed.
+`gitconfig` → `~/.gitconfig` · `ghostty/config` → `~/.config/ghostty/config`. If you add a new config
+file, wire up its symlink there or it won't be installed.
 
 ## Notes
 
-- There is no build or test suite — this is a config repo. "Verifying" a change means running the relevant
-  tool (e.g. open `nvim` to check a plugin loads, or `fish -c 'source config.fish'`).
-- `config.fish` header documents intentional deviations from the reference repo (dropped macOS-only bits,
-  `z` reserved for zoxide, etc.); README's "Notable deviations" section is the fuller list.
+- There is no build or test suite — this is a config repo. "Verifying" a change means running the
+  relevant tool, or `bash -n setup.sh` for script edits.
+- Don't reintroduce fish/Neovim/yazi management here — that's an intentional simplification, not an
+  oversight. If the user wants one of them back, treat it as a new feature, not a revert.

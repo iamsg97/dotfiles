@@ -1,12 +1,12 @@
 # Ported from https://github.com/cetanu/dotfiles.
 # Dropped [sequence] editor = interactive-rebase-tool (niche tool we skipped) —
-# rebase -i now falls back to core.editor (nvim) instead.
+# rebase -i now falls back to core.editor (vim) instead.
 [user]
     name = Suvadeep Ghoshal
     email = ghoshalsuvadeep594@gmail.com
 
 [core]
-    editor = nvim
+    editor = vim
     pager = delta
 
 [format]
