@@ -277,7 +277,6 @@ link() {
 link "$DOTFILES/starship.toml" ~/.config/starship/starship.toml
 link "$DOTFILES/tmux.conf" ~/.tmux.conf
 link "$DOTFILES/gitconfig" ~/.gitconfig
-link "$DOTFILES/ghostty/config" ~/.config/ghostty/config
 echo "==> Configs linked"
 
 echo

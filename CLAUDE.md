@@ -38,7 +38,7 @@ needed. Re-run `./setup.sh` after pulling changes that touch the tool-install st
 ## Symlink map (defined at the bottom of `setup.sh`)
 
 `starship.toml` → `~/.config/starship/starship.toml` · `tmux.conf` → `~/.tmux.conf` ·
-`gitconfig` → `~/.gitconfig` · `ghostty/config` → `~/.config/ghostty/config`. If you add a new config
+`gitconfig` → `~/.gitconfig`. If you add a new config
 file, wire up its symlink there or it won't be installed.
 
 ## Notes

@@ -4,7 +4,7 @@ Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)**, built wit
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
 - **apt or dnf** instead of Homebrew — `setup.sh` detects the distro family at runtime
-- **Ghostty** as the tracked terminal config, **starship** prompt, **tmux** multiplexer
+- **starship** prompt, **tmux** multiplexer
 - your normal login shell (bash) — nothing here manages or replaces it
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
 
@@ -36,7 +36,6 @@ Everything is idempotent — safe to re-run.
 | `starship.toml` | Minimal prompt: time, dir, git, command duration |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
 | `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
-| `ghostty/config` | Ghostty terminal config: `Everforest Dark Hard` theme |
 
 ## tmux quick reference
 
@@ -70,8 +69,6 @@ commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
 
 ## Notable deviations from the reference repo
 
-- **Ghostty is the only terminal-emulator config tracked** (`ghostty/config`, symlinked to
-  `~/.config/ghostty/config`) — theme is `Everforest Dark Hard`. No `alacritty.yml`/`wezterm.lua`.
 - **No managed shell, editor, or file manager config.** This repo deliberately stays out of fish/nvim/yazi
   — it installs CLI tools and toolchains and gets out of the way. `setup.sh` appends a small guarded block
   to `~/.bashrc` (rustup/pyenv/fnm/starship/zoxide init) since those tools need to be sourced into an
