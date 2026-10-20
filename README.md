@@ -1,9 +1,9 @@
 # dotfiles
 
-Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)**, built with reference to
+Personal dotfiles for **Pop!_OS / Ubuntu (apt)**, **Fedora (dnf)** and **macOS (Homebrew)**, built with reference to
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
-- **apt or dnf** instead of Homebrew — `setup.sh` detects the distro family at runtime
+- **apt, dnf or Homebrew** — `setup.sh` detects the platform at runtime (see [macOS](#macos))
 - **starship** prompt, **tmux** multiplexer
 - your normal login shell (bash) — nothing here manages or replaces it
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
@@ -85,6 +85,19 @@ commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
   `git-interactive-rebase-tool`).
 - **`gitconfig` is actually symlinked** by `setup.sh` — the reference repo's install script never linked
   its own `gitconfig`.
+
+## macOS
+
+Install the Xcode Command Line Tools (`xcode-select --install`) and [Homebrew](https://brew.sh) first;
+`setup.sh` then needs no sudo. On macOS it:
+
+- installs everything with `brew`, including the tools Linux pulls from installers/release assets
+  (`pyenv`, `fnm`, `pnpm`, `bun`, `starship`, `lazygit`) and the `font-jetbrains-mono-nerd-font` cask;
+- writes the guarded init block to **`~/.zshrc`** (zsh is the macOS login shell), with `brew shellenv`
+  and the keg-only `openjdk@21` on `PATH`;
+- skips `xclip`/`wl-clipboard` (macOS has `pbcopy`/`pbpaste`).
+
+The macOS path runs under `/bin/bash` 3.2, so keep it free of bash 4+ features.
 
 ## Fedora vs. Ubuntu package differences
 
