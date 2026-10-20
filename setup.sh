@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# One-shot setup for Pop!_OS/Ubuntu (apt) and Fedora (dnf): installs every tool and toolchain below,
-# then symlinks this repo's configs into place.
+# One-shot setup for Pop!_OS/Ubuntu (apt), Fedora (dnf) and macOS (Homebrew): installs every tool and
+# toolchain below, then symlinks this repo's configs into place.
 #
 #   ./setup.sh
 #
-# Run it as your normal user — NOT with sudo. It calls sudo itself, only for the OS package-manager
-# step; everything else installs into $HOME so it must run as you, not root.
+# Run it as your normal user — NOT with sudo. On Linux it calls sudo itself, only for the OS
+# package-manager step; everything else installs into $HOME so it must run as you, not root. On macOS
+# it needs no sudo at all, but Homebrew must already be installed (https://brew.sh).
+#
+# Must stay bash 3.2-compatible on the macOS path (that's /bin/bash there).
 #
 # Idempotent: safe to re-run after pulling repo changes.
 set -euo pipefail
@@ -63,7 +66,9 @@ fetch_latest_asset() {
 }
 
 # --- distro detection -------------------------------------------------------
-if command -v dnf >/dev/null; then
+if [[ "$(uname -s)" == Darwin ]]; then
+    DISTRO_FAMILY=macos
+elif command -v dnf >/dev/null; then
     DISTRO_FAMILY=fedora
 elif command -v apt-get >/dev/null; then
     DISTRO_FAMILY=debian
@@ -73,9 +78,39 @@ else
 fi
 echo "==> Detected distro family: $DISTRO_FAMILY"
 
-# --- distro packages (needs sudo) -------------------------------------------
+# --- distro packages (needs sudo on Linux) ----------------------------------
 echo "==> Installing distro packages"
-if [[ $DISTRO_FAMILY == debian ]]; then
+if [[ $DISTRO_FAMILY == macos ]]; then
+    # macOS notes:
+    #   - Xcode Command Line Tools stand in for build-essential (clang, make, git).
+    #   - Homebrew also covers what Linux pulls from installers/release assets: pyenv, fnm, pnpm, bun,
+    #     starship, lazygit and the Nerd Font. None of their formulae touch shell rc files.
+    #   - openjdk@21 is keg-only; the ~/.zshrc block below puts it on PATH.
+    #   - xclip/wl-clipboard are skipped — macOS has pbcopy/pbpaste built in.
+    if ! xcode-select -p >/dev/null 2>&1; then
+        echo "Xcode Command Line Tools missing. Run 'xcode-select --install', then re-run ./setup.sh" >&2
+        exit 1
+    fi
+    if ! command -v brew >/dev/null; then
+        for b in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+            [[ -x "$b" ]] && eval "$("$b" shellenv)" && break
+        done
+    fi
+    if ! command -v brew >/dev/null; then
+        echo "Homebrew not found. Install it from https://brew.sh, then re-run ./setup.sh" >&2
+        exit 1
+    fi
+    brew install \
+        curl git unzip \
+        tmux bat ripgrep fd fzf zoxide lsd git-delta \
+        jq ffmpeg sevenzip hyperfine \
+        go openjdk@21 gh \
+        pyenv fnm pnpm oven-sh/bun/bun starship lazygit
+    # pyenv build dependencies (per the pyenv wiki's macOS list). openssl@3, not plain `openssl`:
+    # that now resolves to openssl@4, whose API Python 3.12's _ssl module doesn't compile against.
+    brew install openssl@3 readline sqlite3 xz zlib tcl-tk
+    brew install --cask font-jetbrains-mono-nerd-font
+elif [[ $DISTRO_FAMILY == debian ]]; then
     sudo apt-get update
     sudo apt-get install -y \
         build-essential curl git unzip file fontconfig clang \
@@ -127,7 +162,8 @@ fi
 
 echo "==> Installing Rust toolchain"
 if ! command -v rustup >/dev/null && [[ ! -x "$HOME/.cargo/bin/rustup" ]]; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    # --no-modify-path: the rc block below already sources ~/.cargo/env.
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 fi
 # shellcheck source=/dev/null
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
@@ -159,6 +195,8 @@ eval "$(pyenv init -)"
 # build against current gcc/openssl on rolling distros. Override with PY_VERSION=x.y.z if needed.
 PY_VERSION="${PY_VERSION:-$(pyenv install --list | tr -d ' ' | grep -E '^3\.12\.[0-9]+$' | tail -1)}"
 if ! pyenv versions --bare | grep -q "^${PY_VERSION}\$"; then
+    # python-build otherwise picks the newest Homebrew openssl (openssl@4), which 3.12 can't build with.
+    [[ $DISTRO_FAMILY == macos ]] && export PYTHON_BUILD_HOMEBREW_OPENSSL_FORMULA=openssl@3
     pyenv install "$PY_VERSION"
 fi
 pyenv global "$PY_VERSION"
@@ -171,7 +209,9 @@ if ! command -v fnm >/dev/null && [[ ! -x "$HOME/.local/share/fnm/fnm" ]]; then
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 fi
 export PATH="$HOME/.local/share/fnm:$PATH"
-ln -sf "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm" 2>/dev/null || true
+if [[ -x "$HOME/.local/share/fnm/fnm" ]]; then
+    ln -sf "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
+fi
 eval "$(fnm env)"
 fnm install --lts
 fnm default lts-latest
@@ -223,7 +263,8 @@ fi
 echo "==> Lazygit installed"
 
 echo "==> Installing JetBrainsMono Nerd Font"
-if [[ ! -f "$HOME/.local/share/fonts/JetBrainsMonoNerdFont-Regular.ttf" ]]; then
+# macOS gets it from the Homebrew cask above.
+if [[ $DISTRO_FAMILY != macos && ! -f "$HOME/.local/share/fonts/JetBrainsMonoNerdFont-Regular.ttf" ]]; then
     fetch_latest_asset "ryanoasis/nerd-fonts" 'JetBrainsMono\.zip' /tmp/jbm-nerd.zip
     unzip -oq /tmp/jbm-nerd.zip -d "$HOME/.local/share/fonts" "*.ttf"
     fc-cache -f "$HOME/.local/share/fonts" >/dev/null
@@ -231,16 +272,28 @@ if [[ ! -f "$HOME/.local/share/fonts/JetBrainsMonoNerdFont-Regular.ttf" ]]; then
 fi
 echo "==> Nerd Font installed"
 
-# --- shell init (bash) -------------------------------------------------------
+# --- shell init (bash on Linux, zsh on macOS) --------------------------------
 # rustup, pyenv and fnm need to be sourced into an interactive shell to be usable; pnpm/bun/starship/
 # lazygit land in ~/.local/bin, which is on PATH by default on Ubuntu/Fedora. Appended once, guarded by
 # markers, so re-running this script never duplicates the block.
-BASHRC="$HOME/.bashrc"
-if ! grep -qF "# >>> dotfiles setup >>>" "$BASHRC" 2>/dev/null; then
-    echo "==> Adding tool init block to ~/.bashrc"
-    cat >>"$BASHRC" <<'EOF'
-
-# >>> dotfiles setup >>>
+if [[ $DISTRO_FAMILY == macos ]]; then
+    RCFILE="$HOME/.zshrc"
+    RCSHELL=zsh
+    BREW_PREFIX="$(brew --prefix)"
+else
+    RCFILE="$HOME/.bashrc"
+    RCSHELL=bash
+fi
+if ! grep -qF "# >>> dotfiles setup >>>" "$RCFILE" 2>/dev/null; then
+    echo "==> Adding tool init block to $RCFILE"
+    {
+        echo
+        echo "# >>> dotfiles setup >>>"
+        if [[ $DISTRO_FAMILY == macos ]]; then
+            echo "eval \"\$($BREW_PREFIX/bin/brew shellenv)\""
+            echo "export PATH=\"$BREW_PREFIX/opt/openjdk@21/bin:\$PATH\""
+        fi
+        cat <<'EOF'
 export PATH="$HOME/.local/bin:$PATH"
 [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 export PYENV_ROOT="$HOME/.pyenv"
@@ -255,10 +308,11 @@ case ":$PATH:" in
 esac
 export BUN_INSTALL="$HOME/.bun"
 [[ -d "$BUN_INSTALL/bin" ]] && export PATH="$BUN_INSTALL/bin:$PATH"
-command -v starship >/dev/null && eval "$(starship init bash)"
-command -v zoxide >/dev/null && eval "$(zoxide init bash)"
-# <<< dotfiles setup <<<
 EOF
+        echo "command -v starship >/dev/null && eval \"\$(starship init $RCSHELL)\""
+        echo "command -v zoxide >/dev/null && eval \"\$(zoxide init $RCSHELL)\""
+        echo "# <<< dotfiles setup <<<"
+    } >>"$RCFILE"
 fi
 
 # --- symlink configs ---------------------------------------------------------
@@ -274,12 +328,12 @@ link() {
     ln -sfn "$src" "$dest"
 }
 
-link "$DOTFILES/starship.toml" ~/.config/starship/starship.toml
+link "$DOTFILES/starship.toml" ~/.config/starship.toml
 link "$DOTFILES/tmux.conf" ~/.tmux.conf
 link "$DOTFILES/gitconfig" ~/.gitconfig
 echo "==> Configs linked"
 
 echo
 echo "Setup complete."
-echo "  - Open a new terminal (or 'source ~/.bashrc') to pick up rustup/pyenv/fnm/starship."
+echo "  - Open a new terminal (or 'source $RCFILE') to pick up rustup/pyenv/fnm/starship."
 echo "  - Set your terminal's font to 'JetBrainsMono Nerd Font' (needed for icons used by lsd/starship)."

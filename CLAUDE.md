@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-Personal dotfiles for **Pop!_OS / Ubuntu (apt)** and **Fedora (dnf)**. Adapted from
+Personal dotfiles for **Pop!_OS / Ubuntu (apt)**, **Fedora (dnf)** and **macOS (Homebrew)**. Adapted from
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) for Linux package managers (not Homebrew) and the
 system terminal. Deliberately does **not** manage a shell, editor, or file manager (no fish, no Neovim, no
 yazi) — it installs CLI tools/toolchains and symlinks a handful of app configs. `README.md` is the
@@ -19,9 +19,11 @@ table. Update it when behavior changes.
     itself, only inside the one function that needs it (apt/dnf packages) — everything else installs
     into `$HOME`, and running the whole script as root would put rustup/pyenv/fnm/cargo tools under
     `/root` instead of the real user's home.
-  - **Distro family is detected at runtime** (`dnf` → `fedora`, `apt-get` → `debian`). All package-name
-    divergence lives in the `if [[ $DISTRO_FAMILY == debian ]]` block right after detection. When adding
-    a package, add it to **both** branches or explain why not.
+  - **Distro family is detected at runtime** (`Darwin` → `macos`, `dnf` → `fedora`, `apt-get` → `debian`).
+    All package-name divergence lives in the `macos`/`debian`/else block right after detection. When adding
+    a package, add it to **all three** branches or explain why not. The macOS path runs under `/bin/bash`
+    3.2 — no bash 4+ features there, and no `fetch_latest_asset` (its empty-array expansion trips `set -u`).
+  - The rc block goes to `~/.bashrc` on Linux and `~/.zshrc` on macOS.
   - **Never use a vendor's `curl | bash` installer without checking whether it edits shell rc files.**
     This script itself appends one guarded block to `~/.bashrc` (rustup/pyenv/fnm/starship/zoxide init) —
     don't let a vendor installer append a second, conflicting one. pnpm and bun are installed from GitHub
@@ -37,7 +39,7 @@ needed. Re-run `./setup.sh` after pulling changes that touch the tool-install st
 
 ## Symlink map (defined at the bottom of `setup.sh`)
 
-`starship.toml` → `~/.config/starship/starship.toml` · `tmux.conf` → `~/.tmux.conf` ·
+`starship.toml` → `~/.config/starship.toml` (starship's default path) · `tmux.conf` → `~/.tmux.conf` ·
 `gitconfig` → `~/.gitconfig`. If you add a new config
 file, wire up its symlink there or it won't be installed.
 
