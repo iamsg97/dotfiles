@@ -84,7 +84,7 @@ if [[ $DISTRO_FAMILY == macos ]]; then
     # macOS notes:
     #   - Xcode Command Line Tools stand in for build-essential (clang, make, git).
     #   - Homebrew also covers what Linux pulls from installers/release assets: pyenv, fnm, pnpm, bun,
-    #     starship, lazygit and the Nerd Font. None of their formulae touch shell rc files.
+    #     lazygit and the Nerd Font. None of their formulae touch shell rc files.
     #   - openjdk@21 is keg-only; the ~/.zshrc block below puts it on PATH.
     #   - xclip/wl-clipboard are skipped — macOS has pbcopy/pbpaste built in.
     if ! xcode-select -p >/dev/null 2>&1; then
@@ -105,7 +105,7 @@ if [[ $DISTRO_FAMILY == macos ]]; then
         tmux bat ripgrep fd fzf zoxide lsd git-delta \
         jq ffmpeg sevenzip hyperfine \
         go openjdk@21 gh \
-        pyenv fnm pnpm oven-sh/bun/bun starship lazygit
+        pyenv fnm pnpm oven-sh/bun/bun lazygit
     # pyenv build dependencies (per the pyenv wiki's macOS list). openssl@3, not plain `openssl`:
     # that now resolves to openssl@4, whose API Python 3.12's _ssl module doesn't compile against.
     brew install openssl@3 readline sqlite3 xz zlib tcl-tk
@@ -246,13 +246,6 @@ if ! command -v bun >/dev/null && [[ ! -x "$HOME/.local/bin/bun" ]]; then
 fi
 echo "==> bun $(bun --version 2>/dev/null || "$HOME/.local/bin/bun" --version)"
 
-echo "==> Installing Starship prompt"
-if ! command -v starship >/dev/null && [[ ! -x "$HOME/.local/bin/starship" ]]; then
-    # -b ~/.local/bin: the installer defaults to /usr/local/bin, which would need sudo.
-    curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin"
-fi
-echo "==> Starship prompt installed"
-
 echo "==> Installing Lazygit"
 if ! command -v lazygit >/dev/null && [[ ! -x "$HOME/.local/bin/lazygit" ]]; then
     fetch_latest_asset "jesseduffield/lazygit" 'lazygit_.*_linux_x86_64\.tar\.gz' /tmp/lazygit.tar.gz
@@ -273,8 +266,8 @@ fi
 echo "==> Nerd Font installed"
 
 # --- shell init (bash on Linux, zsh on macOS) --------------------------------
-# rustup, pyenv and fnm need to be sourced into an interactive shell to be usable; pnpm/bun/starship/
-# lazygit land in ~/.local/bin, which is on PATH by default on Ubuntu/Fedora. Appended once, guarded by
+# rustup, pyenv and fnm need to be sourced into an interactive shell to be usable; pnpm/bun/lazygit
+# land in ~/.local/bin, which is on PATH by default on Ubuntu/Fedora. Appended once, guarded by
 # markers, so re-running this script never duplicates the block.
 if [[ $DISTRO_FAMILY == macos ]]; then
     RCFILE="$HOME/.zshrc"
@@ -309,7 +302,6 @@ esac
 export BUN_INSTALL="$HOME/.bun"
 [[ -d "$BUN_INSTALL/bin" ]] && export PATH="$BUN_INSTALL/bin:$PATH"
 EOF
-        echo "command -v starship >/dev/null && eval \"\$(starship init $RCSHELL)\""
         echo "command -v zoxide >/dev/null && eval \"\$(zoxide init $RCSHELL)\""
         echo "# <<< dotfiles setup <<<"
     } >>"$RCFILE"
@@ -328,12 +320,12 @@ link() {
     ln -sfn "$src" "$dest"
 }
 
-link "$DOTFILES/starship.toml" ~/.config/starship.toml
 link "$DOTFILES/tmux.conf" ~/.tmux.conf
 link "$DOTFILES/gitconfig" ~/.gitconfig
+link "$DOTFILES/ghostty/config.ghostty" ~/.config/ghostty/config.ghostty
 echo "==> Configs linked"
 
 echo
 echo "Setup complete."
-echo "  - Open a new terminal (or 'source $RCFILE') to pick up rustup/pyenv/fnm/starship."
-echo "  - Set your terminal's font to 'JetBrainsMono Nerd Font' (needed for icons used by lsd/starship)."
+echo "  - Open a new terminal (or 'source $RCFILE') to pick up rustup/pyenv/fnm."
+echo "  - Set your terminal's font to 'JetBrainsMono Nerd Font' (needed for icons used by lsd)."

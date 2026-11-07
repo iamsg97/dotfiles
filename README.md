@@ -4,7 +4,7 @@ Personal dotfiles for **Pop!_OS / Ubuntu (apt)**, **Fedora (dnf)** and **macOS (
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
 - **apt, dnf or Homebrew** — `setup.sh` detects the platform at runtime (see [macOS](#macos))
-- **starship** prompt, **tmux** multiplexer
+- **Ghostty** terminal (Tokyo Night theme), **tmux** multiplexer
 - your normal login shell (bash) — nothing here manages or replaces it
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
 
@@ -21,10 +21,10 @@ configs into place. Run it as your **normal user, not with sudo** — it calls `
 one step that needs it (apt/dnf packages); everything else installs into `$HOME`.
 
 After that:
-1. Open a new terminal (or `source ~/.bashrc`) to pick up the rustup/pyenv/fnm/starship PATH changes
+1. Open a new terminal (or `source ~/.bashrc`) to pick up the rustup/pyenv/fnm PATH changes
    `setup.sh` appends to `~/.bashrc` (in a guarded, idempotent block).
-2. Open your terminal's settings and set the font to **JetBrainsMono Nerd Font** (needed for the icons
-   used by `lsd` and `starship`).
+2. If you're not using Ghostty (whose tracked config already sets it), set your terminal's font to
+   **JetBrainsMono Nerd Font** (needed for the icons used by `lsd`).
 
 Everything is idempotent — safe to re-run.
 
@@ -33,7 +33,7 @@ Everything is idempotent — safe to re-run.
 | File / dir | Purpose |
 | --- | --- |
 | `setup.sh` | Installs every CLI tool/toolchain, then symlinks configs into place |
-| `starship.toml` | Minimal prompt: time, dir, git, command duration |
+| `ghostty/config.ghostty` | Ghostty terminal config: built-in `TokyoNight` theme, JetBrainsMono Nerd Font |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
 | `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
 
@@ -71,7 +71,7 @@ commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
 
 - **No managed shell, editor, or file manager config.** This repo deliberately stays out of fish/nvim/yazi
   — it installs CLI tools and toolchains and gets out of the way. `setup.sh` appends a small guarded block
-  to `~/.bashrc` (rustup/pyenv/fnm/starship/zoxide init) since those tools need to be sourced into an
+  to `~/.bashrc` (rustup/pyenv/fnm/zoxide init) since those tools need to be sourced into an
   interactive shell to work; everything else that installs into `~/.local/bin` relies on that directory
   already being on `PATH` by default on Ubuntu/Fedora.
 - **tmux instead of zellij** — the multiplexer config comes from
@@ -92,7 +92,7 @@ Install the Xcode Command Line Tools (`xcode-select --install`) and [Homebrew](h
 `setup.sh` then needs no sudo. On macOS it:
 
 - installs everything with `brew`, including the tools Linux pulls from installers/release assets
-  (`pyenv`, `fnm`, `pnpm`, `bun`, `starship`, `lazygit`) and the `font-jetbrains-mono-nerd-font` cask;
+  (`pyenv`, `fnm`, `pnpm`, `bun`, `lazygit`) and the `font-jetbrains-mono-nerd-font` cask;
 - writes the guarded init block to **`~/.zshrc`** (zsh is the macOS login shell), with `brew shellenv`
   and the keg-only `openjdk@21` on `PATH`;
 - skips `xclip`/`wl-clipboard` (macOS has `pbcopy`/`pbpaste`).
