@@ -25,10 +25,9 @@ table. Update it when behavior changes.
     3.2 — no bash 4+ features there, and no `fetch_latest_asset` (its empty-array expansion trips `set -u`).
   - The rc block goes to `~/.bashrc` on Linux and `~/.zshrc` on macOS.
   - **Never use a vendor's `curl | bash` installer without checking whether it edits shell rc files.**
-    This script itself appends one guarded block to `~/.bashrc` (rustup/pyenv/fnm/starship/zoxide init) —
+    This script itself appends one guarded block to `~/.bashrc` (rustup/pyenv/fnm/zoxide init) —
     don't let a vendor installer append a second, conflicting one. pnpm and bun are installed from GitHub
-    release assets via `fetch_latest_asset` for exactly this reason; starship is passed `-b ~/.local/bin`
-    so it doesn't reach for `/usr/local/bin` (and thus sudo).
+    release assets via `fetch_latest_asset` for exactly this reason.
   - The `~/.bashrc` block is appended once, guarded by `# >>> dotfiles setup >>>` / `# <<< ... <<<`
     markers — re-running the script must not duplicate it.
   - Symlinking backs up any pre-existing non-symlink file to `<file>.bak.<timestamp>` before linking.
@@ -39,8 +38,8 @@ needed. Re-run `./setup.sh` after pulling changes that touch the tool-install st
 
 ## Symlink map (defined at the bottom of `setup.sh`)
 
-`starship.toml` → `~/.config/starship.toml` (starship's default path) · `tmux.conf` → `~/.tmux.conf` ·
-`gitconfig` → `~/.gitconfig`. If you add a new config
+`tmux.conf` → `~/.tmux.conf` · `gitconfig` → `~/.gitconfig` ·
+`ghostty/config.ghostty` → `~/.config/ghostty/config.ghostty`. If you add a new config
 file, wire up its symlink there or it won't be installed.
 
 ## Notes
@@ -49,3 +48,5 @@ file, wire up its symlink there or it won't be installed.
   relevant tool, or `bash -n setup.sh` for script edits.
 - Don't reintroduce fish/Neovim/yazi management here — that's an intentional simplification, not an
   oversight. If the user wants one of them back, treat it as a new feature, not a revert.
+- Starship was removed on purpose (the user dropped its init line from `~/.zshrc`); zsh uses its default
+  prompt. Same rule: re-adding it is a new feature.
