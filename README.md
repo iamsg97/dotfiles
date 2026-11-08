@@ -4,7 +4,7 @@ Personal dotfiles for **Pop!_OS / Ubuntu (apt)**, **Fedora (dnf)** and **macOS (
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) but adapted for:
 
 - **apt, dnf or Homebrew** — `setup.sh` detects the platform at runtime (see [macOS](#macos))
-- **Ghostty** terminal (Tokyo Night theme), **tmux** multiplexer
+- **fish** shell (macOS), **tmux** multiplexer
 - your normal login shell (bash) — nothing here manages or replaces it
 - toolchains for **Python, Rust, Go, TypeScript/Node and Java**
 
@@ -23,7 +23,7 @@ one step that needs it (apt/dnf packages); everything else installs into `$HOME`
 After that:
 1. Open a new terminal (or `source ~/.bashrc`) to pick up the rustup/pyenv/fnm PATH changes
    `setup.sh` appends to `~/.bashrc` (in a guarded, idempotent block).
-2. If you're not using Ghostty (whose tracked config already sets it), set your terminal's font to
+2. Set your terminal's font to
    **JetBrainsMono Nerd Font** (needed for the icons used by `lsd`).
 
 Everything is idempotent — safe to re-run.
@@ -33,7 +33,7 @@ Everything is idempotent — safe to re-run.
 | File / dir | Purpose |
 | --- | --- |
 | `setup.sh` | Installs every CLI tool/toolchain, then symlinks configs into place |
-| `ghostty/config.ghostty` | Ghostty terminal config: built-in `TokyoNight` theme, JetBrainsMono Nerd Font |
+| `fish/config.fish` | fish shell config (macOS): Homebrew, PATH, pyenv, fnm, pnpm, bun, zoxide — mirrors the `~/.zshrc` block |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
 | `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
 
@@ -69,7 +69,7 @@ commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
 
 ## Notable deviations from the reference repo
 
-- **No managed shell, editor, or file manager config.** This repo deliberately stays out of fish/nvim/yazi
+- **No managed editor or file manager config; fish only on macOS.** This repo deliberately stays out of nvim/yazi
   — it installs CLI tools and toolchains and gets out of the way. `setup.sh` appends a small guarded block
   to `~/.bashrc` (rustup/pyenv/fnm/zoxide init) since those tools need to be sourced into an
   interactive shell to work; everything else that installs into `~/.local/bin` relies on that directory
