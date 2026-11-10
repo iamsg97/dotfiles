@@ -105,7 +105,7 @@ if [[ $DISTRO_FAMILY == macos ]]; then
         tmux bat ripgrep fd fzf zoxide lsd git-delta \
         jq ffmpeg sevenzip hyperfine \
         go openjdk@21 gh \
-        pyenv fnm pnpm oven-sh/bun/bun lazygit
+        pyenv fnm pnpm oven-sh/bun/bun lazygit fish
     # pyenv build dependencies (per the pyenv wiki's macOS list). openssl@3, not plain `openssl`:
     # that now resolves to openssl@4, whose API Python 3.12's _ssl module doesn't compile against.
     brew install openssl@3 readline sqlite3 xz zlib tcl-tk
@@ -322,7 +322,10 @@ link() {
 
 link "$DOTFILES/tmux.conf" ~/.tmux.conf
 link "$DOTFILES/gitconfig" ~/.gitconfig
-link "$DOTFILES/ghostty/config.ghostty" ~/.config/ghostty/config.ghostty
+link "$DOTFILES/fish/config.fish" ~/.config/fish/config.fish
+# Only the two config files are linked; elpa/, tree-sitter/ etc. stay local in ~/.emacs.d.
+link "$DOTFILES/emacs/init.el" ~/.emacs.d/init.el
+link "$DOTFILES/emacs/early-init.el" ~/.emacs.d/early-init.el
 echo "==> Configs linked"
 
 echo
