@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal dotfiles for **Pop!_OS / Ubuntu (apt)**, **Fedora (dnf)** and **macOS (Homebrew)**. Adapted from
 [cetanu/dotfiles](https://github.com/cetanu/dotfiles) for Linux package managers (not Homebrew) and the
-system terminal. Deliberately does **not** manage an editor or file manager (no Neovim, no yazi); fish is
+system terminal. Deliberately does **not** manage Neovim or a file manager (no yazi); the one managed editor is
+terminal Emacs (`emacs/`, added at the user's request); fish is
 installed and configured on macOS only — it installs CLI tools/toolchains and symlinks a handful of app configs. `README.md` is the
 authoritative, detailed reference — especially for the tmux keybindings and the Fedora/Ubuntu package-name
 table. Update it when behavior changes.
@@ -39,7 +40,8 @@ needed. Re-run `./setup.sh` after pulling changes that touch the tool-install st
 ## Symlink map (defined at the bottom of `setup.sh`)
 
 `tmux.conf` → `~/.tmux.conf` · `gitconfig` → `~/.gitconfig` ·
-`fish/config.fish` → `~/.config/fish/config.fish`. Ghostty is intentionally left on its built-in defaults (no tracked config). If you add a new config
+`fish/config.fish` → `~/.config/fish/config.fish` · `emacs/init.el` + `emacs/early-init.el` → `~/.emacs.d/`
+(only those two files; `elpa/`, `tree-sitter/` stay local). Ghostty is intentionally left on its built-in defaults (no tracked config). If you add a new config
 file, wire up its symlink there or it won't be installed.
 
 ## Notes
@@ -47,6 +49,9 @@ file, wire up its symlink there or it won't be installed.
 - There is no build or test suite — this is a config repo. "Verifying" a change means running the
   relevant tool, or `bash -n setup.sh` for script edits.
 - Don't reintroduce Neovim/yazi management here — that's an intentional simplification, not an
-  oversight. fish was re-added (macOS) at the user's request; anything further is a new feature.
+  oversight. fish was re-added (macOS) and Emacs added at the user's request; anything further is a new feature.
+- Emacs: the user uses lazygit, not magit — don't add magit. Never suggest `package-autoremove` (no
+  `package-selected-packages`, so it would remove everything). Emacs itself and the language servers are
+  not installed by `setup.sh` (documented in README's Emacs section).
 - Starship was removed on purpose (the user dropped its init line from `~/.zshrc`); zsh uses its default
   prompt. Same rule: re-adding it is a new feature.

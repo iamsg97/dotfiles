@@ -36,6 +36,7 @@ Everything is idempotent — safe to re-run.
 | `fish/config.fish` | fish shell config (macOS): Homebrew, PATH, pyenv, fnm, pnpm, bun, zoxide — mirrors the `~/.zshrc` block |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
 | `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
+| `emacs/` | Terminal Emacs (`emacs -nw`, Emacs 31): evil (Vim keys), tree-sitter, eglot LSP, gruber-darker theme, lazygit popup — see [Emacs](#emacs) |
 
 ## tmux quick reference
 
@@ -67,9 +68,39 @@ Windows and panes are **1-indexed** and windows renumber automatically when one 
 The `lazygit` binary is installed and on `PATH`; run it directly inside any git repo for the status/stage/
 commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
 
+## Emacs
+
+[`emacs/init.el`](emacs/init.el) and [`emacs/early-init.el`](emacs/early-init.el) are symlinked into
+`~/.emacs.d/`; everything else there (`elpa/`, `tree-sitter/`, history files) stays local and is
+recreated on first launch. Packages install from MELPA automatically on the first start; tree-sitter
+grammars install the first time a file of that language is opened (needs a C compiler).
+
+`setup.sh` does **not** install Emacs or the language servers — on macOS: `brew install emacs`, then
+`go install golang.org/x/tools/gopls@latest` and `npm i -g typescript@5 typescript-language-server pyright`
+(TypeScript 7 ships no `tsserver`, which `typescript-language-server` needs). `clangd` comes with the Xcode CLT.
+
+Vim keys everywhere (evil), plus VS Code-style shortcuts. Press `SPC` and wait for a menu of every leader key.
+
+| Key | Action |
+| --- | --- |
+| `Ctrl+P` / `SPC SPC` | Find file in project |
+| `SPC /` | Search text in project (ripgrep) |
+| `Ctrl+B` / `SPC e` | File tree |
+| `F12` / `gd`, `Shift+F12` / `gr` | Go to definition / references (`Ctrl+O` to jump back) |
+| `F2` / `SPC c r` | Rename symbol |
+| `Ctrl+.` / `SPC c a` | Code action / quick fix |
+| `F8` / `]d` `[d` | Next / previous diagnostic |
+| `K` | Docs for the symbol at point |
+| `Ctrl+/` / `gcc` | Toggle comment |
+| `SPC g g` | lazygit (tmux popup; buffers reload on exit) |
+| `]h` `[h` / `SPC g r` | Next / previous git hunk / revert hunk |
+
+Don't run `M-x package-autoremove`: packages come from `use-package :ensure`, so Emacs has no
+"selected packages" list and would offer to delete all of them.
+
 ## Notable deviations from the reference repo
 
-- **No managed editor or file manager config; fish only on macOS.** This repo deliberately stays out of nvim/yazi
+- **Only Emacs as a managed editor (no nvim/yazi); fish only on macOS.** This repo deliberately stays out of nvim/yazi
   — it installs CLI tools and toolchains and gets out of the way. `setup.sh` appends a small guarded block
   to `~/.bashrc` (rustup/pyenv/fnm/zoxide init) since those tools need to be sourced into an
   interactive shell to work; everything else that installs into `~/.local/bin` relies on that directory
