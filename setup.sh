@@ -321,6 +321,12 @@ link() {
 }
 
 link "$DOTFILES/tmux.conf" ~/.tmux.conf
+# ThePrimeagen's tmux-sessionizer workflow (scripts + their config/data files).
+link "$DOTFILES/bin/tmux-sessionizer" ~/.local/bin/tmux-sessionizer
+link "$DOTFILES/bin/tmux-cht.sh" ~/.local/bin/tmux-cht.sh
+link "$DOTFILES/tmux-sessionizer/tmux-sessionizer.conf" ~/.config/tmux-sessionizer/tmux-sessionizer.conf
+link "$DOTFILES/tmux-sessionizer/tmux-cht-languages" ~/.tmux-cht-languages
+link "$DOTFILES/tmux-sessionizer/tmux-cht-command" ~/.tmux-cht-command
 link "$DOTFILES/gitconfig" ~/.gitconfig
 link "$DOTFILES/fish/config.fish" ~/.config/fish/config.fish
 # Only the two config files are linked; elpa/, tree-sitter/ etc. stay local in ~/.emacs.d.

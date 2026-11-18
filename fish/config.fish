@@ -29,3 +29,8 @@ test -d $BUN_INSTALL/bin; and fish_add_path $BUN_INSTALL/bin
 
 # zoxide
 type -q zoxide; and zoxide init fish | source
+
+# ThePrimeagen's tmux-sessionizer on Ctrl-f (accept autosuggestions with Right arrow / Ctrl-e instead)
+if status is-interactive
+    bind ctrl-f 'tmux-sessionizer; commandline -f repaint'
+end

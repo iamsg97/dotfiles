@@ -35,20 +35,22 @@ Everything is idempotent — safe to re-run.
 | `setup.sh` | Installs every CLI tool/toolchain, then symlinks configs into place |
 | `fish/config.fish` | fish shell config (macOS): Homebrew, PATH, pyenv, fnm, pnpm, bun, zoxide — mirrors the `~/.zshrc` block |
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
-| `tmux.conf` | Fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching |
-| `emacs/` | Terminal Emacs (`emacs -nw`, Emacs 31): evil (Vim keys), tree-sitter, eglot LSP, gruber-darker theme, lazygit popup — see [Emacs](#emacs) |
+| `tmux.conf` | `Ctrl + a` prefix, fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching, ThePrimeagen's sessionizer bindings |
+| `bin/tmux-sessionizer`, `bin/tmux-cht.sh` | [ThePrimeagen's](https://github.com/ThePrimeagen/tmux-sessionizer) project/session switcher and cheat.sh lookup, linked into `~/.local/bin` |
+| `tmux-sessionizer/` | Sessionizer search paths (`~/.config/tmux-sessionizer/tmux-sessionizer.conf`) and the cheat.sh language/command lists (`~/.tmux-cht-*`) |
+| `emacs/` | Terminal Emacs (`emacs -nw`, Emacs 31): evil (Vim keys), tree-sitter, eglot LSP, gruber-darker theme, Magit — see [Emacs](#emacs) |
 
 ## tmux quick reference
 
-The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) keeps the default **prefix `Ctrl + b`**
-and is tuned for responsiveness and quick keyboard navigation: a 10ms escape-time (tmux's 500ms default
+The config ([`tmux.conf`](tmux.conf), symlinked to `~/.tmux.conf`) uses **prefix `Ctrl + a`** (press it twice to send a
+literal `Ctrl + a`, e.g. beginning-of-line in the shell) and is tuned for responsiveness and quick keyboard navigation: a 10ms escape-time (tmux's 500ms default
 makes `<Esc>` feel laggy in terminal apps like vim), `tmux-256color` + RGB `terminal-overrides` for true
 color, `focus-events` and `aggressive-resize` on, and vi-style copy mode. Mouse mode is also on, so
 pane/window selection and resizing can be done by click and drag too.
 
 ### Keybindings
 
-Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings from `tmux.conf`:
+Prefix is `Ctrl + a` — press it, release, then the key below. Custom bindings from `tmux.conf`:
 
 | Keybinding | Action |
 | --- | --- |
@@ -62,6 +64,16 @@ Prefix is `Ctrl + b` — press it, release, then the key below. Custom bindings 
 | `prefix` then `c` / `,` / `&` | New window / rename window / kill window *(tmux defaults)* |
 | `prefix` then `d` | Detach (session keeps running) |
 | `prefix` then `[` | Enter copy mode (vi keys: `v` to select, `y` to copy, `q` to quit) |
+| `prefix` then `f` | **tmux-sessionizer**: fuzzy-pick a project dir, jump to its session (created on first use) |
+| `Ctrl + f` (fish prompt) | Same as above, outside tmux too (accept autosuggestions with `→` / `Ctrl + e` instead) |
+| `prefix` then `A` / `P` / `O` | Jump straight to agentic-ai-course / personal-website / dotfiles sessions |
+| `prefix` then `^` | Toggle to the last window |
+| `prefix` then `i` | cheat.sh lookup (pick language/command, type query) in a new window |
+| `prefix` then `D` | Open `TODO.md` in the current dir (fallback `~/todo.md`) in vim |
+
+The sessionizer searches `~/`, `~/codebase` and `~/codebase/agentic-ai-course` (edit
+`tmux-sessionizer/tmux-sessionizer.conf`). A `.tmux-sessionizer` file in a project (fish syntax — it is
+`source`d into the new session's shell) runs automatically when its session is first created.
 
 Windows and panes are **1-indexed** and windows renumber automatically when one is closed.
 
@@ -92,7 +104,8 @@ Vim keys everywhere (evil), plus VS Code-style shortcuts. Press `SPC` and wait f
 | `F8` / `]d` `[d` | Next / previous diagnostic |
 | `K` | Docs for the symbol at point |
 | `Ctrl+/` / `gcc` | Toggle comment |
-| `SPC g g` | lazygit (tmux popup; buffers reload on exit) |
+| `SPC g g` | Magit status (`?` for the command menu in any Magit buffer; `q` to close) |
+| `SPC g l` / `SPC g f` / `SPC g d` | Magit log / file menu (blame, log) / diff of this file |
 | `]h` `[h` / `SPC g r` | Next / previous git hunk / revert hunk |
 
 Don't run `M-x package-autoremove`: packages come from `use-package :ensure`, so Emacs has no
