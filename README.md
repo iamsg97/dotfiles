@@ -37,6 +37,7 @@ Everything is idempotent — safe to re-run.
 | `gitconfig` | `delta` pager/diff, rebase-on-pull, vim as editor |
 | `tmux.conf` | `Ctrl + a` prefix, fast escape-time + true color, vi copy mode, `\|`/`-` splits (current path), Ctrl+arrow/vi-style pane nav, Alt+arrow window switching, ThePrimeagen's sessionizer bindings |
 | `bin/tmux-sessionizer`, `bin/tmux-cht.sh` | [ThePrimeagen's](https://github.com/ThePrimeagen/tmux-sessionizer) project/session switcher and cheat.sh lookup, linked into `~/.local/bin` |
+| `bin/dotfiles-bitbucket-sync.fish`, `githooks/` | Mirrors `main` to [Bitbucket](https://bitbucket.org/iamsg97/dotfiles) after every commit/pull (for machines where GitHub is blocked) — see [Bitbucket mirror](#bitbucket-mirror) |
 | `tmux-sessionizer/` | Sessionizer search paths (`~/.config/tmux-sessionizer/tmux-sessionizer.conf`) and the cheat.sh language/command lists (`~/.tmux-cht-*`) |
 
 ## tmux quick reference
@@ -78,6 +79,18 @@ Windows and panes are **1-indexed** and windows renumber automatically when one 
 
 The `lazygit` binary is installed and on `PATH`; run it directly inside any git repo for the status/stage/
 commit/branch/push-pull/log TUI (`?` for help, `q` to quit).
+
+## Bitbucket mirror
+
+GitHub (`origin`) is the primary remote; [bitbucket.org/iamsg97/dotfiles](https://bitbucket.org/iamsg97/dotfiles)
+is a mirror for networks that block GitHub. `setup.sh` sets `git config core.hooksPath githooks`, so after
+every commit on `main` (and every pull that changes it) the hooks run
+[`bin/dotfiles-bitbucket-sync.fish`](bin/dotfiles-bitbucket-sync.fish) in the background. It adds a
+`bitbucket` remote if missing and runs `git push bitbucket main` over SSH (your key must be added to
+Bitbucket). Results go to `~/.local/state/dotfiles-sync.log`; a failed push also shows a macOS notification.
+Pushing to GitHub stays manual (`git push`). Run the script by hand any time to re-sync.
+
+On a machine without GitHub access: `git clone git@bitbucket.org:iamsg97/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh`.
 
 ## Notable deviations from the reference repo
 

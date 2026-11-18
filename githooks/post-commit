@@ -1,0 +1,8 @@
+#!/bin/sh
+# Mirror main to Bitbucket after commits/pulls (see bin/dotfiles-bitbucket-sync.fish).
+# Runs in the background so git returns immediately; GUI git clients may lack Homebrew on PATH.
+PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+command -v fish >/dev/null 2>&1 || exit 0
+root="$(git rev-parse --show-toplevel)"
+nohup fish "$root/bin/dotfiles-bitbucket-sync.fish" >/dev/null 2>&1 &
+exit 0

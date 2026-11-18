@@ -46,6 +46,9 @@ file, wire up its symlink there or it won't be installed.
 
 ## Notes
 
+- Bitbucket mirror: `githooks/` (post-commit/merge/rewrite, enabled via `core.hooksPath` in `setup.sh`) runs
+  `bin/dotfiles-bitbucket-sync.fish`, which pushes `main` to the `bitbucket` remote. GitHub `origin` is primary.
+
 - There is no build or test suite — this is a config repo. "Verifying" a change means running the
   relevant tool, or `bash -n setup.sh` for script edits.
 - Don't reintroduce Neovim/Emacs/yazi management here — that's an intentional simplification, not an

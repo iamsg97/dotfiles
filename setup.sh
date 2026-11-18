@@ -331,6 +331,10 @@ link "$DOTFILES/gitconfig" ~/.gitconfig
 link "$DOTFILES/fish/config.fish" ~/.config/fish/config.fish
 echo "==> Configs linked"
 
+# Tracked git hooks: mirror main to Bitbucket after every commit/pull (bin/dotfiles-bitbucket-sync.fish).
+git -C "$DOTFILES" config core.hooksPath githooks
+echo "==> Bitbucket auto-sync hooks enabled"
+
 echo
 echo "Setup complete."
 echo "  - Open a new terminal (or 'source $RCFILE') to pick up rustup/pyenv/fnm."
