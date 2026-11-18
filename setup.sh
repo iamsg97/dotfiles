@@ -329,9 +329,6 @@ link "$DOTFILES/tmux-sessionizer/tmux-cht-languages" ~/.tmux-cht-languages
 link "$DOTFILES/tmux-sessionizer/tmux-cht-command" ~/.tmux-cht-command
 link "$DOTFILES/gitconfig" ~/.gitconfig
 link "$DOTFILES/fish/config.fish" ~/.config/fish/config.fish
-# Only the two config files are linked; elpa/, tree-sitter/ etc. stay local in ~/.emacs.d.
-link "$DOTFILES/emacs/init.el" ~/.emacs.d/init.el
-link "$DOTFILES/emacs/early-init.el" ~/.emacs.d/early-init.el
 echo "==> Configs linked"
 
 echo
