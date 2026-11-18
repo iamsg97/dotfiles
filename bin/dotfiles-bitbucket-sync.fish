@@ -6,7 +6,7 @@
 # Output goes to ~/.local/state/dotfiles-sync.log; failures also raise a macOS notification.
 
 set -l remote bitbucket
-set -l url git@bitbucket.org:iamsg97/dotfiles.git
+set -l url git@ssh.bitbucket.org:iamsg97/dotfiles.git
 set -l branch main
 set -l log_file $HOME/.local/state/dotfiles-sync.log
 

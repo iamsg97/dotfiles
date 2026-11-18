@@ -90,7 +90,7 @@ every commit on `main` (and every pull that changes it) the hooks run
 Bitbucket). Results go to `~/.local/state/dotfiles-sync.log`; a failed push also shows a macOS notification.
 Pushing to GitHub stays manual (`git push`). Run the script by hand any time to re-sync.
 
-On a machine without GitHub access: `git clone git@bitbucket.org:iamsg97/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh`.
+On a machine without GitHub access: `git clone git@ssh.bitbucket.org:iamsg97/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh`.
 
 ## Notable deviations from the reference repo
 
